@@ -1,0 +1,8 @@
+loglevel: info
+
+ingress:
+  - hostname: salonglamournc.com
+    service: http://web:80
+  - hostname: www.salonglamournc.com
+    service: http://web:80
+  - service: http_status:404
