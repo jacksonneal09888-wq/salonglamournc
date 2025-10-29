@@ -10,6 +10,8 @@ Copy `.env.example` (below) into the repo root `.env` or export the variables be
 SQUARE_ACCESS_TOKEN=replace-with-live-token
 SQUARE_LOCATION_ID=RP38RJ3DZ5D4R
 SQUARE_VERSION=2023-12-13
+SQUARE_ENVIRONMENT=sandbox
+SQUARE_BASE_URL=https://connect.squareupsandbox.com
 BOOKING_TIME_ZONE=America/New_York
 BOOKING_EMBED_URL=https://salonglamournc.com/booking
 
@@ -20,6 +22,8 @@ GOOGLE_CALENDAR_ID=primary
 
 > Keep the private key wrapped in quotes and use literal `\n` for new lines so Docker reads it correctly.
 
+`SQUARE_ENVIRONMENT` accepts `sandbox` (defaults to `production`). `SQUARE_BASE_URL` is optional; omit it to use the standard Square domain for the selected environment.
+
 ## Endpoints
 
 | Route                     | Method | Description                                                    |
@@ -29,6 +33,8 @@ GOOGLE_CALENDAR_ID=primary
 | `/api/availability`       | GET    | Proxies to Square `v2/availability/search`.                    |
 | `/api/bookings`           | POST   | Proxies to Square `v2/bookings`.                               |
 | `/api/google/calendar`    | POST   | Creates a Google Calendar event via service account.           |
+| `/api/services`           | GET    | Lists live Square appointment services (cached for 5 minutes). |
+| `/api/team`               | GET    | Lists active Square team members for the configured location.  |
 
 ## Local development
 
@@ -40,4 +46,4 @@ docker compose up --build
 docker compose exec api npm install
 ```
 
-The API listens on port `8788` inside Docker. Nginx proxies `/api/*` to it, so the booking UI can call `/api/availability`, `/api/bookings`, and `/api/google/calendar` from the browser without exposing secrets.
+The API listens on port `8788` inside Docker. Nginx proxies `/api/*` to it, so the booking UI can call `/api/availability`, `/api/bookings`, `/api/services`, `/api/team`, and `/api/google/calendar` from the browser without exposing secrets.

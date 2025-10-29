@@ -184,9 +184,12 @@
       squareBookingEndpoint: '/api/bookings',
       squareAvailabilityEndpoint: '/api/availability',
       googleCalendarEndpoint: '/api/google/calendar',
+      servicesEndpoint: '/api/services',
+      teamEndpoint: '/api/team',
       timeZone: 'America/New_York',
       embedUrl: (window.location.origin === 'null' ? '' : `${window.location.origin}/booking`),
-      useMockAvailability: true
+      useMockAvailability: false,
+      useMockCatalog: false
     };
   </script>
   <noscript>
