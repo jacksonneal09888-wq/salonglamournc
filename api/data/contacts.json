@@ -1,0 +1,26 @@
+[
+  {
+    "id": "demo-client-1",
+    "name": "Avery Simmons",
+    "email": "avery@example.com",
+    "phone": "+19195551234",
+    "tags": ["vip", "color"],
+    "marketingOptIn": true
+  },
+  {
+    "id": "demo-client-2",
+    "name": "Jordan Reed",
+    "email": "jordan@example.com",
+    "phone": "+19195557654",
+    "tags": ["new-client"],
+    "marketingOptIn": true
+  },
+  {
+    "id": "demo-client-3",
+    "name": "Skylar Avery",
+    "email": "skylar@example.com",
+    "phone": "+19195559876",
+    "tags": ["blowout"],
+    "marketingOptIn": false
+  }
+]

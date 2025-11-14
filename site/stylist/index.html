@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salon Glamour NC · Stylist Portal</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="portal">
+      <section class="panel panel--left">
+        <header class="panel__header">
+          <h1>Salon Glamour NC</h1>
+          <p>Stylist access</p>
+        </header>
+
+        <form id="loginForm" class="card card--login">
+          <h2>Sign in</h2>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="username" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" name="password" autocomplete="current-password" required />
+          </label>
+          <label>
+            <span>PIN</span>
+            <input type="password" name="pin" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required />
+          </label>
+          <button type="submit">Log in</button>
+          <p class="hint">
+            Default password: <code>ChangeMe123!</code> &nbsp; PIN: <code>1234</code> (update this after signing in).
+          </p>
+          <p class="error" data-error></p>
+        </form>
+
+        <button type="button" id="logoutBtn" class="ghost hidden">Sign out</button>
+      </section>
+
+      <section class="panel panel--right">
+        <div class="summary">
+          <div>
+            <h2 data-stylist-name>Welcome</h2>
+            <p data-stylist-role></p>
+          </div>
+          <div>
+            <p class="summary__description">Today’s bookings</p>
+            <p class="summary__count" data-booking-count>0</p>
+          </div>
+        </div>
+
+        <section class="schedule">
+          <header>
+            <h3>Upcoming schedule</h3>
+            <span data-date-range></span>
+          </header>
+          <ul id="bookingList" class="booking-list">
+            <li class="empty">Sign in to see your upcoming appointments.</li>
+          </ul>
+        </section>
+
+        <section class="notes" hidden>
+          <h3>Internal notes</h3>
+          <div id="noteFeed" class="note-feed"></div>
+        </section>
+      </section>
+    </main>
+
+    <template id="bookingTemplate">
+      <li class="booking">
+        <div class="booking__time">
+          <strong data-start></strong>
+          <span data-end></span>
+        </div>
+        <div class="booking__details">
+          <h4 data-service></h4>
+          <p data-customer></p>
+          <p class="booking__meta" data-meta></p>
+        </div>
+      </li>
+    </template>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

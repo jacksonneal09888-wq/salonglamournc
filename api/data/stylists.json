@@ -1,0 +1,57 @@
+[
+  {
+    "id": "cecii",
+    "name": "Cecilia Garcia-Torres",
+    "displayName": "Cecii",
+    "email": "cecii@salonglamournc.com",
+    "squareStaffId": "QtBlDWuSwRfPAmfPAdMo",
+    "role": "owner",
+    "phone": "+13365219528",
+    "passwordHash": "$2b$10$zs3viN46wV1lHSgRY6cSs./BLQOhpANPYYKacoD1kCu/EMnLaOD8i",
+    "pinHash": "$2b$10$zKgYt.KOI1zKAzw65V2mfe0JEvaOdrQrj6Gs51gbWtkFN9hjFr/Ci"
+  },
+  {
+    "id": "daniela",
+    "name": "Daniela Fernandez",
+    "displayName": "Daniela",
+    "email": "daniela@salonglamournc.com",
+    "squareStaffId": "STAFF_DANIELA",
+    "role": "staff",
+    "phone": "+13365219528",
+    "passwordHash": "$2b$10$zs3viN46wV1lHSgRY6cSs./BLQOhpANPYYKacoD1kCu/EMnLaOD8i",
+    "pinHash": "$2b$10$zKgYt.KOI1zKAzw65V2mfe0JEvaOdrQrj6Gs51gbWtkFN9hjFr/Ci"
+  },
+  {
+    "id": "esperanza",
+    "name": "Esperanza Garcia",
+    "displayName": "Esperanza",
+    "email": "esperanza@salonglamournc.com",
+    "squareStaffId": "TMoC0HYrTtI1d030",
+    "role": "staff",
+    "phone": "+13365219528",
+    "passwordHash": "$2b$10$zs3viN46wV1lHSgRY6cSs./BLQOhpANPYYKacoD1kCu/EMnLaOD8i",
+    "pinHash": "$2b$10$zKgYt.KOI1zKAzw65V2mfe0JEvaOdrQrj6Gs51gbWtkFN9hjFr/Ci"
+  },
+  {
+    "id": "linda",
+    "name": "Linda Fuentes",
+    "displayName": "Linda",
+    "email": "linda@salonglamournc.com",
+    "squareStaffId": "STAFF_LINDA",
+    "role": "staff",
+    "phone": "+13365219528",
+    "passwordHash": "$2b$10$zs3viN46wV1lHSgRY6cSs./BLQOhpANPYYKacoD1kCu/EMnLaOD8i",
+    "pinHash": "$2b$10$zKgYt.KOI1zKAzw65V2mfe0JEvaOdrQrj6Gs51gbWtkFN9hjFr/Ci"
+  },
+  {
+    "id": "marcela",
+    "name": "Marcela Burciaga",
+    "displayName": "Marcela",
+    "email": "marcela@salonglamournc.com",
+    "squareStaffId": "TM4GMI7mifHgMITv",
+    "role": "staff",
+    "phone": "+13365219528",
+    "passwordHash": "$2b$10$zs3viN46wV1lHSgRY6cSs./BLQOhpANPYYKacoD1kCu/EMnLaOD8i",
+    "pinHash": "$2b$10$zKgYt.KOI1zKAzw65V2mfe0JEvaOdrQrj6Gs51gbWtkFN9hjFr/Ci"
+  }
+]
