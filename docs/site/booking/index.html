@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Salon Glamour NC | Booking Sandbox</title>
+  <meta name="description" content="Internal booking sandbox for Salon Glamour NC that keeps Square for payments while testing a custom UI.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="booking-shell">
+    <header class="booking-hero">
+      <p class="hero-eyebrow">Salon Glamour NC &middot; Internal Beta</p>
+      <h1>Custom Booking Orchestrator</h1>
+      <p>
+        Keep Square for payments and staff data while you trial-drive the custom booking flow. Use the controls below to pull services, assign stylists in a round robin, and preview the Square + Google Calendar payloads before you wire up the live APIs.
+      </p>
+      <div class="hero-actions">
+        <a class="link-pill" href="../index.html">&larr; Back to public site</a>
+        <button class="ghost small" type="button" id="demoBooking">Drop in demo data</button>
+      </div>
+    </header>
+
+    <main class="booking-grid">
+      <section class="panel form-panel">
+        <form id="bookingForm" autocomplete="off">
+          <fieldset class="form-section">
+            <legend>1. Choose a service</legend>
+            <div class="option-grid" id="serviceList" role="radiogroup" aria-label="Salon services"></div>
+            <p class="hint">This will map directly to your Square Catalog service variation IDs.</p>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>2. Pick a day + slot</legend>
+            <div class="field-pair">
+              <label class="form-field">
+                <span>Date</span>
+                <input type="date" id="dateInput" required>
+              </label>
+              <label class="form-field">
+                <span>Time slot</span>
+                <div class="input-with-button">
+                  <select id="timeSelect" required>
+                    <option value="">Load availability</option>
+                  </select>
+                  <button type="button" class="ghost small" id="refreshSlots">Refresh</button>
+                </div>
+              </label>
+            </div>
+            <p class="hint" id="availabilityStatus">Availability uses mocked data until you connect the Square Appointments API.</p>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>3. Stylist assignment</legend>
+            <div class="toggle-pills" role="radiogroup" aria-label="Stylist assignment mode">
+              <label class="pill">
+                <input type="radio" name="stylistMode" value="roundRobin" checked>
+                <span>Auto (round robin)</span>
+              </label>
+              <label class="pill">
+                <input type="radio" name="stylistMode" value="manual">
+                <span>Pick a stylist</span>
+              </label>
+            </div>
+            <div class="rotation-preview" id="rotationPreview">
+              <div>
+                <p class="rotation-label">Next up in rotation</p>
+                <p class="rotation-name" data-next-stylist>Loading stylists...</p>
+              </div>
+              <button type="button" class="ghost small" id="nextStylistBtn">Advance rotation</button>
+            </div>
+            <div class="option-stack hidden" id="stylistList" role="radiogroup" aria-label="Choose a stylist"></div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>4. Guest details</legend>
+            <div class="field-pair">
+              <label class="form-field">
+                <span>Guest name</span>
+                <input type="text" id="clientName" placeholder="Full name" required>
+              </label>
+              <label class="form-field">
+                <span>Mobile number</span>
+                <input type="tel" id="clientPhone" placeholder="(336) 555-1234" required>
+              </label>
+            </div>
+            <label class="form-field">
+              <span>Email (for confirmations)</span>
+              <input type="email" id="clientEmail" placeholder="guest@email.com">
+            </label>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>5. Notes</legend>
+            <label class="form-field">
+              <span>Color formulas, inspo links, or reminders</span>
+              <textarea id="notesInput" rows="3" placeholder="Optional"></textarea>
+            </label>
+          </fieldset>
+
+          <div class="form-actions">
+            <button class="primary" type="submit" data-submit-button>Preview + queue booking</button>
+            <p class="hint">Submitting keeps the booking local; wire it to your backend whenever you're ready.</p>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel summary-panel">
+        <div class="summary-card">
+          <h2>Booking preview</h2>
+          <dl>
+            <div>
+              <dt>Service</dt>
+              <dd data-summary="service">Select a service</dd>
+            </div>
+            <div>
+              <dt>When</dt>
+              <dd data-summary="time">Choose a date + slot</dd>
+            </div>
+            <div>
+              <dt>Stylist strategy</dt>
+              <dd data-summary="stylist">Round robin pending roster</dd>
+            </div>
+            <div>
+              <dt>Guest</dt>
+              <dd data-summary="client">Add guest details</dd>
+            </div>
+            <div>
+              <dt>Notes</dt>
+              <dd data-summary="notes">Optional</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="payload-card">
+          <div class="payload-head">
+            <h3>Square Appointments payload</h3>
+            <button type="button" class="ghost small" data-copy="square">Copy JSON</button>
+          </div>
+          <pre id="squarePayload">{\n  "idempotency_key": "pending",\n  "location_id": "XXXX",\n  "appointment_segments": []\n}</pre>
+        </div>
+
+        <div class="payload-card">
+          <div class="payload-head">
+            <h3>Google Calendar payload</h3>
+            <button type="button" class="ghost small" data-copy="google">Copy JSON</button>
+          </div>
+          <pre id="googlePayload">{\n  "summary": "pending"\n}</pre>
+        </div>
+
+        <div class="integration-card">
+          <h3>Integration checklist</h3>
+          <ul>
+            <li data-integration="square">
+              <span>Square Appointments API</span>
+              <span class="status-badge">Mock mode</span>
+            </li>
+            <li data-integration="google">
+              <span>Google Calendar API</span>
+              <span class="status-badge">Mock mode</span>
+            </li>
+            <li data-integration="embed">
+              <span>Embed on salonglamournc.com</span>
+              <span class="status-badge status-idle">Pending</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="activity-card">
+          <h3>Activity log</h3>
+          <ul id="activityLog">
+            <li>Waiting for first booking...</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    window.__BOOKING_CONFIG = {
+      squareBookingEndpoint: '/api/bookings',
+      squareAvailabilityEndpoint: '/api/availability',
+      googleCalendarEndpoint: '/api/google/calendar',
+      servicesEndpoint: '/api/services',
+      teamEndpoint: '/api/team',
+      timeZone: 'America/New_York',
+      embedUrl: (window.location.origin === 'null' ? '' : `${window.location.origin}/booking`),
+      useMockAvailability: false,
+      useMockCatalog: false
+    };
+  </script>
+  <noscript>
+    <p class="noscript-callout">Enable JavaScript to use the booking sandbox.</p>
+  </noscript>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
