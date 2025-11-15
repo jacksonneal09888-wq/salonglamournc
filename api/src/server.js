@@ -87,6 +87,7 @@ const squareBookingSchema = z
         z.object({
           duration_minutes: z.number().positive(),
           service_variation_id: z.string().min(1),
+          service_variation_version: z.number().int().optional(),
           team_member_id: z.string().min(1)
         })
       )
@@ -608,15 +609,20 @@ async function fetchSquareServices() {
   const services = [];
   const categoryIds = new Set();
   const imageIds = new Set();
+  const variationVersions = new Map();
   let cursor;
 
   do {
-    const searchParams = new URLSearchParams({ types: 'ITEM' });
+    const searchParams = new URLSearchParams({ types: 'ITEM,ITEM_VARIATION' });
     if (cursor) searchParams.set('cursor', cursor);
     const result = await squareRequest('/v2/catalog/list', { method: 'GET', searchParams });
     const objects = result.objects ?? [];
     for (const object of objects) {
       if (object.is_deleted) continue;
+      if (object.type === 'ITEM_VARIATION') {
+        variationVersions.set(object.id, object.version ?? null);
+        continue;
+      }
       const item = object.item_data;
       if (!item || item.product_type !== 'APPOINTMENTS_SERVICE') continue;
       const baseName = item.name ?? 'Service';
@@ -661,6 +667,7 @@ async function fetchSquareServices() {
           price: priceMoney ? priceMoney.amount / 100 : null,
           squareItemId: object.id,
           squareCatalogObjectId: variation.id,
+          serviceVariationVersion: variation.version ?? null,
           teamMemberIds,
           categoryIds: itemCategoryIds,
           imageIds: variationImageIds.length ? variationImageIds : itemImageIds
@@ -688,6 +695,8 @@ async function fetchSquareServices() {
         price: service.price,
         squareCatalogObjectId: service.squareCatalogObjectId,
         squareItemId: service.squareItemId,
+        serviceVariationVersion:
+          service.serviceVariationVersion ?? variationVersions.get(service.squareCatalogObjectId) ?? null,
         teamMemberIds: service.teamMemberIds,
         category: categoryName,
         imageUrl
@@ -951,8 +960,7 @@ async function fetchSquareAvailability(params) {
           end_at: end.toUTC().toISO()
         },
         segment_filters: [segmentFilter]
-      },
-      limit: 60
+      }
     }
   };
   console.log('Square availability request', JSON.stringify(body, null, 2));
@@ -982,12 +990,32 @@ async function fetchSquareAvailability(params) {
 }
 
 async function createSquareBooking(payload) {
-  const enforced = {
-    ...payload,
-    location_id: SQUARE_LOCATION_ID,
-    idempotency_key: payload.idempotency_key ?? `booking_${Date.now()}`
+  const { customer_details: customerDetails, end_at: _endAt, ...rest } = payload;
+  const enforcedBooking = {
+    ...rest,
+    location_id: SQUARE_LOCATION_ID
   };
-  const response = await squareFetch('/v2/bookings', enforced);
+  if (!enforcedBooking.start_at) {
+    throw new Error('start_at is required to create a booking.');
+  }
+  const idempotencyKey = enforcedBooking.idempotency_key ?? `booking_${Date.now()}`;
+  delete enforcedBooking.idempotency_key;
+
+  if (customerDetails) {
+    const customer = await createSquareCustomer(customerDetails).catch(error => {
+      const details = error?.response?.data ?? error?.details ?? error;
+      console.error('Failed to create Square customer', JSON.stringify(details, null, 2));
+      return null;
+    });
+    if (customer?.id) {
+      enforcedBooking.customer_id = customer.id;
+    }
+  }
+
+  const response = await squareFetch('/v2/bookings', {
+    idempotency_key: idempotencyKey,
+    booking: enforcedBooking
+  });
   return response.booking;
 }
 
@@ -1156,4 +1184,44 @@ async function squareRequest(path, { method = 'POST', body, searchParams } = {})
     throw error;
   }
   return response.json();
+}
+
+async function createSquareCustomer(details = {}) {
+  const givenName = (details.given_name ?? details.first_name ?? '').trim();
+  const nameParts = givenName.split(/\s+/);
+  const firstName = nameParts.shift() ?? '';
+  const lastName = details.family_name ?? nameParts.join(' ');
+  const email = details.email_address ?? details.email ?? '';
+  const rawPhone = details.phone_number ?? details.phone ?? '';
+  const phone = formatPhoneE164(rawPhone);
+  if (!firstName && !email && !phone) {
+    return null;
+  }
+  const body = {
+    idempotency_key: details.idempotency_key ?? `customer_${Date.now()}`,
+    given_name: firstName || undefined,
+    family_name: lastName || undefined,
+    email_address: email || undefined,
+    phone_number: phone || undefined,
+    reference_id: details.reference_id ?? undefined,
+    note: details.note ?? undefined
+  };
+  const response = await squareRequest('/v2/customers', { method: 'POST', body });
+  return response.customer ?? null;
+}
+
+function formatPhoneE164(phone) {
+  if (!phone) return '';
+  const digits = phone.replace(/\D/g, '');
+  if (!digits) return '';
+  if (digits.length === 10) {
+    return `+1${digits}`;
+  }
+  if (digits.length === 11 && digits.startsWith('1')) {
+    return `+${digits}`;
+  }
+  if (digits.startsWith('+')) {
+    return digits;
+  }
+  return `+${digits}`;
 }

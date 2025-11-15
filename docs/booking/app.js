@@ -190,6 +190,18 @@ const state = {
 
 async function bootstrap() {
   await initializeCatalog();
+  const backendStatus = await detectBackendCapabilities();
+  if (backendStatus) {
+    if (backendStatus.squareConfigured === false) {
+      config.squareBookingEndpoint = '';
+      config.squareAvailabilityEndpoint = '';
+      logAction('Square proxy is not configured. Staying in mock availability mode.', 'warning');
+    }
+    if (backendStatus.googleConfigured === false) {
+      config.googleCalendarEndpoint = '';
+      logAction('Google Calendar sync disabled until credentials are added.', 'warning');
+    }
+  }
   renderServiceCards();
   renderStylists();
   setDefaultDate();
@@ -269,6 +281,46 @@ function finalizeCatalogState() {
   }
 }
 
+async function detectBackendCapabilities() {
+  const healthUrl = buildApiUrl('/health');
+  if (!healthUrl) return null;
+  try {
+    const response = await fetch(healthUrl, { cache: 'no-store' });
+    if (!response.ok) return null;
+    return response.json();
+  } catch (error) {
+    console.warn('Health check failed', error);
+    return null;
+  }
+}
+
+function buildApiUrl(pathname) {
+  const base = getApiBase();
+  if (!base) return '';
+  const normalizedBase = base.endsWith('/') ? base.slice(0, -1) : base;
+  const normalizedPath = pathname.startsWith('/') ? pathname : `/${pathname}`;
+  return `${normalizedBase}${normalizedPath}`;
+}
+
+function getApiBase() {
+  const candidate =
+    config.squareBookingEndpoint ||
+    config.squareAvailabilityEndpoint ||
+    config.servicesEndpoint ||
+    config.teamEndpoint ||
+    '';
+  if (candidate && /^https?:\/\//i.test(candidate)) {
+    try {
+      const url = new URL(candidate);
+      return url.origin;
+    } catch (_error) {
+      return '';
+    }
+  }
+  const origin = window.location.origin === 'null' ? '' : window.location.origin;
+  return origin;
+}
+
 function normalizeServices(rawList) {
   const seen = new Set();
   return rawList
@@ -299,6 +351,7 @@ function normalizeServices(rawList) {
         description: raw.description ?? '',
         squareCatalogObjectId: id,
         squareItemId: raw.squareItemId ?? raw.itemId ?? null,
+        serviceVariationVersion: raw.serviceVariationVersion ?? raw.version ?? null,
         teamMemberIds: Array.isArray(raw.teamMemberIds) ? raw.teamMemberIds.filter(Boolean) : [],
         imageUrl: raw.imageUrl ?? null
       };
@@ -782,7 +835,8 @@ function buildSquarePayload(service, stylist, start, end) {
       {
         duration_minutes: service.duration,
         service_variation_id: service.squareCatalogObjectId,
-        team_member_id: stylist.squareStaffId
+        team_member_id: stylist.squareStaffId,
+        service_variation_version: service.serviceVariationVersion ?? undefined
       }
     ],
     metadata: {

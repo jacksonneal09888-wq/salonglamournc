@@ -180,17 +180,25 @@
   </div>
 
   <script>
-    window.__BOOKING_CONFIG = {
-      squareBookingEndpoint: '/api/bookings',
-      squareAvailabilityEndpoint: '/api/availability',
-      googleCalendarEndpoint: '/api/google/calendar',
-      servicesEndpoint: '/api/services',
-      teamEndpoint: '/api/team',
-      timeZone: 'America/New_York',
-      embedUrl: (window.location.origin === 'null' ? '' : `${window.location.origin}/booking`),
-      useMockAvailability: false,
-      useMockCatalog: false
-    };
+    (function configureBooking() {
+      const { hostname, port, origin } = window.location;
+      const shouldUseLocalApi =
+        (hostname === '127.0.0.1' || hostname === 'localhost') && port !== '8788';
+      const apiBase = shouldUseLocalApi ? 'http://localhost:8788' : '';
+      const makeEndpoint = path => `${apiBase}${path}`;
+
+      window.__BOOKING_CONFIG = {
+        squareBookingEndpoint: makeEndpoint('/api/bookings'),
+        squareAvailabilityEndpoint: makeEndpoint('/api/availability'),
+        googleCalendarEndpoint: makeEndpoint('/api/google/calendar'),
+        servicesEndpoint: makeEndpoint('/api/services'),
+        teamEndpoint: makeEndpoint('/api/team'),
+        timeZone: 'America/New_York',
+        embedUrl: origin === 'null' ? '' : `${origin}/booking`,
+        useMockAvailability: false,
+        useMockCatalog: false
+      };
+    })();
   </script>
   <noscript>
     <p class="noscript-callout">Enable JavaScript to use the booking sandbox.</p>
