@@ -323,7 +323,8 @@ function getApiBase() {
 
 function normalizeServices(rawList) {
   const seen = new Set();
-  return rawList
+  let removedWalkInServices = false;
+  const services = rawList
     .map(raw => {
       const name = raw.name ?? raw.displayName ?? 'Service';
       const id = raw.squareCatalogObjectId ?? raw.squareVariationId ?? raw.id;
@@ -367,11 +368,22 @@ function normalizeServices(rawList) {
     })
     .filter(service => {
       if (!service) return false;
+      const categorySlug = slugify(service.category ?? '');
+      if (categorySlug.startsWith('walk-in-quick-services')) {
+        removedWalkInServices = true;
+        return false;
+      }
       if (seen.has(service.id)) return false;
       seen.add(service.id);
       return true;
     })
     .sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name));
+
+  if (removedWalkInServices) {
+    logAction('Walk-in services are hidden because Square does not allow online booking for them.', 'info');
+  }
+
+  return services;
 }
 
 function normalizeStylists(rawList) {
