@@ -110,6 +110,42 @@ body {
   margin-top: 12px;
 }
 
+.service-catalog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.service-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  row-gap: 10px;
+}
+
+.service-filter-btn {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  background: #fff;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.service-filter-btn.is-active {
+  background: rgba(160, 80, 255, 0.1);
+  border-color: var(--accent-strong);
+  color: var(--accent-strong);
+}
+
+.service-filter-btn:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
 .service-card {
   border: 1px solid var(--border);
   border-radius: 18px;

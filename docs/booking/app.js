@@ -153,6 +153,7 @@ const stylistOverrides = new Map([
 
 const selectors = {
   bookingForm: document.getElementById('bookingForm'),
+  serviceCategories: document.getElementById('serviceCategories'),
   serviceList: document.getElementById('serviceList'),
   stylistList: document.getElementById('stylistList'),
   rotationPreview: document.getElementById('rotationPreview'),
@@ -186,8 +187,11 @@ const integrationNames = {
   embed: 'Embed'
 };
 
+const ALL_CATEGORIES = '__all__';
+
 const state = {
   serviceId: null,
+  serviceCategory: ALL_CATEGORIES,
   date: '',
   time: '',
   stylistMode: 'roundRobin',
@@ -462,6 +466,15 @@ function attachListeners() {
       updateSummary();
     }
   });
+  selectors.serviceCategories?.addEventListener('click', event => {
+    const button = event.target.closest('button[data-category]');
+    if (!button) return;
+    const category = button.dataset.category ?? ALL_CATEGORIES;
+    if (category === state.serviceCategory) return;
+    state.serviceCategory = category;
+    renderServiceCards();
+    loadAvailability();
+  });
 
   selectors.dateInput.addEventListener('change', () => {
     state.date = selectors.dateInput.value;
@@ -541,16 +554,36 @@ function attachListeners() {
 }
 
 function renderServiceCards() {
-  selectors.serviceList.innerHTML = '';
+  const availableCategories = new Set(services.map(service => service.category).filter(Boolean));
+  if (state.serviceCategory !== ALL_CATEGORIES && !availableCategories.has(state.serviceCategory)) {
+    state.serviceCategory = ALL_CATEGORIES;
+  }
+  renderServiceFilters(Array.from(availableCategories));
+
+  const list = selectors.serviceList;
+  list.innerHTML = '';
   if (!services.length) {
     const empty = document.createElement('p');
     empty.className = 'hint';
     empty.textContent = 'No services available yet. Configure Square to populate this list.';
-    selectors.serviceList.appendChild(empty);
+    list.appendChild(empty);
     return;
   }
 
-  services.forEach((service, index) => {
+  const filtered =
+    state.serviceCategory === ALL_CATEGORIES
+      ? services
+      : services.filter(service => service.category === state.serviceCategory);
+
+  if (!filtered.length) {
+    const empty = document.createElement('p');
+    empty.className = 'hint';
+    empty.textContent = 'No services are available in this category.';
+    list.appendChild(empty);
+    return;
+  }
+
+  filtered.forEach((service, index) => {
     const label = document.createElement('label');
     label.className = 'service-card';
     const input = document.createElement('input');
@@ -592,8 +625,35 @@ function renderServiceCards() {
       label.appendChild(desc);
     }
     label.appendChild(price);
-    selectors.serviceList.appendChild(label);
+    list.appendChild(label);
   });
+}
+
+function renderServiceFilters(categories = []) {
+  const container = selectors.serviceCategories;
+  if (!container) return;
+  container.innerHTML = '';
+  if (!services.length) {
+    container.classList.add('hidden');
+    return;
+  }
+  container.classList.remove('hidden');
+  const uniqueCategories = categories.filter(Boolean).sort((a, b) => a.localeCompare(b));
+  const selected = state.serviceCategory ?? ALL_CATEGORIES;
+  container.appendChild(createCategoryButton('All services', ALL_CATEGORIES, selected === ALL_CATEGORIES));
+  uniqueCategories.forEach(category => {
+    container.appendChild(createCategoryButton(category, category, selected === category));
+  });
+}
+
+function createCategoryButton(label, value, active) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'service-filter-btn';
+  if (active) button.classList.add('is-active');
+  button.dataset.category = value;
+  button.textContent = label;
+  return button;
 }
 
 function renderStylists() {

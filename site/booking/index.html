@@ -29,7 +29,10 @@
         <form id="bookingForm" autocomplete="off">
           <fieldset class="form-section">
             <legend>1. Choose a service</legend>
-            <div class="option-grid" id="serviceList" role="radiogroup" aria-label="Salon services"></div>
+            <div class="service-catalog">
+              <div class="service-filters" id="serviceCategories" role="tablist" aria-label="Service categories"></div>
+              <div class="option-grid" id="serviceList" role="radiogroup" aria-label="Salon services"></div>
+            </div>
             <p class="hint">This will map directly to your Square Catalog service variation IDs.</p>
           </fieldset>
 
