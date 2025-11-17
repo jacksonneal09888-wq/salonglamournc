@@ -111,6 +111,16 @@ const serviceImageOverrides = new Map([
   ['lash-fill', './assets/images/gallery-4.jpg'],
   ['brow-lamination', './assets/images/gallery-4.jpg']
 ]);
+const categoryImageOverrides = new Map([
+  ['salon-service', './assets/images/gallery-4.jpg'],
+  ['brows-lashes', './assets/images/gallery-3.webp'],
+  ['makeup', './assets/images/gallery-2.jpg'],
+  ['nails', './assets/images/gallery-4.jpg'],
+  ['color-treatments', './assets/images/gallery-1.webp'],
+  ['haircuts-barbering', './assets/images/gallery-1.webp'],
+  ['esthetics-facials', './assets/images/gallery-3.webp'],
+  ['waxing', './assets/images/gallery-4.jpg']
+]);
 let fallbackImageCursor = 0;
 const SALON_PHONE_DISPLAY = '(336) 521-9528';
 const SALON_PHONE_E164 = '+13365219528';
@@ -363,7 +373,7 @@ function normalizeServices(rawList) {
           normalized.price = 145;
         }
       }
-      normalized.imageUrl = selectServiceImage(slug, normalized.imageUrl);
+      normalized.imageUrl = selectServiceImage(slug, normalized.imageUrl, normalized.category);
       return normalized;
     })
     .filter(service => {
@@ -430,10 +440,14 @@ function normalizeStylists(rawList) {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-function selectServiceImage(slug, existingUrl) {
+function selectServiceImage(slug, existingUrl, category) {
   if (existingUrl) return existingUrl;
   if (serviceImageOverrides.has(slug)) {
     return serviceImageOverrides.get(slug);
+  }
+  const categorySlug = slugify(category ?? '');
+  if (categoryImageOverrides.has(categorySlug)) {
+    return categoryImageOverrides.get(categorySlug);
   }
   const fallback = fallbackServiceImages[fallbackImageCursor % fallbackServiceImages.length];
   fallbackImageCursor += 1;
