@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cecilia Garcia-Torres | Salon Glamour NC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(180deg, #ff75b5, #ffd66b);
+        padding: 16px;
+      }
+
+      .card {
+        max-width: 420px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+      }
+
+      .hero-img {
+        width: 100%;
+        display: block;
+      }
+
+      .content {
+        padding: 16px 18px 20px;
+      }
+
+      .name {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .title {
+        font-size: 0.95rem;
+        color: #555;
+        margin-bottom: 10px;
+      }
+
+      .info-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 0.9rem;
+        margin: 4px 0;
+        color: #222;
+        word-break: break-word;
+      }
+
+      .info-label {
+        font-weight: 600;
+        min-width: 60px;
+      }
+
+      .buttons {
+        margin: 14px 0 4px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .btn {
+        text-align: center;
+        padding: 10px 8px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        display: block;
+      }
+
+      .btn-primary {
+        background: #ff5a8a;
+        color: white;
+      }
+
+      .btn-secondary {
+        background: #f3f3f3;
+        color: #222;
+      }
+
+      .btn-primary:active,
+      .btn-secondary:active {
+        transform: translateY(1px);
+      }
+
+      .save-contact {
+        margin-top: 8px;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #444;
+      }
+
+      .save-contact a {
+        color: #ff2f6a;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .save-contact a:active {
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <!-- Top image from your Canva design -->
+      <img
+        src="/assets/images/1.png"
+        alt="Cecilia Garcia-Torres - Salon Glamour NC"
+        class="hero-img"
+      />
+
+      <div class="content">
+        <div class="name">Cecilia Garcia-Torres</div>
+        <div class="title">Lead Stylist / Owner · Salon Glamour NC</div>
+
+        <div class="info-row">
+          <div class="info-label">Phone</div>
+          <div><a href="tel:+13365219528">(336) 521-9528</a></div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-label">Email</div>
+          <div>
+            <a href="mailto:salonglamournc@gmail.com"
+              >salonglamournc@gmail.com</a
+            >
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-label">Address</div>
+          <div>1512f Zoo Pkwy, Asheboro, NC 27205</div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-label">Website</div>
+          <div>
+            <a href="https://salonglamournc.com/site/" target="_blank">
+              salonglamournc.com/site
+            </a>
+          </div>
+        </div>
+
+        <div class="buttons">
+          <a class="btn btn-primary" href="tel:+13365219528">Call</a>
+          <a class="btn btn-secondary" href="sms:+13365219528">Text</a>
+          <a
+            class="btn btn-secondary"
+            href="https://book.squareup.com/appointments/xzwxbrdzvqp39y/location/RP38RJ3DZ5D4R/services"
+            target="_blank"
+          >
+            Book Now
+          </a>
+          <a
+            class="btn btn-secondary"
+            href="https://salonglamournc.com/site/"
+            target="_blank"
+          >
+            View Site
+          </a>
+        </div>
+
+        <div class="save-contact">
+          💾 <a href="/cards/cecilia.vcf">Save Cecilia to Contacts</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
