@@ -54,8 +54,9 @@
 
       .hero img {
         width: 100%;
-        max-height: 280px;
+        max-height: 320px;
         object-fit: cover;
+        object-position: center top;
         display: block;
         border-radius: 16px;
         box-shadow: 0 12px 26px rgba(47, 42, 40, 0.25);
@@ -120,7 +121,7 @@
       .buttons {
         margin: 20px 0 12px;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 12px;
       }
 
@@ -134,6 +135,7 @@
         text-decoration: none;
         border: 1px solid transparent;
         transition: transform 120ms ease, box-shadow 120ms ease;
+        cursor: pointer;
       }
 
       .btn-primary {
@@ -249,6 +251,7 @@
           >
           <a class="btn btn-secondary" href="tel:+13365219528">Call Salon</a>
           <a class="btn btn-secondary" href="/cards/linda.vcf" download>Save Contact</a>
+          <button class="btn btn-secondary" id="share-card" type="button">Share Card</button>
         </div>
 
         <div class="qr">
@@ -260,5 +263,37 @@
         </div>
       </div>
     </div>
+    <script>
+      (() => {
+        const shareButton = document.getElementById("share-card");
+        if (!shareButton) return;
+
+        const shareData = {
+          title: "Linda Fuentes | Prima Beauty",
+          text: "Cosmetologist Tech at Prima Beauty",
+          url: `${location.origin}/linda`,
+        };
+
+        shareButton.addEventListener("click", async () => {
+          if (navigator.share) {
+            try {
+              await navigator.share(shareData);
+            } catch (err) {
+              console.warn("Share canceled", err);
+            }
+          } else if (navigator.clipboard?.writeText) {
+            try {
+              await navigator.clipboard.writeText(shareData.url);
+              shareButton.textContent = "Link Copied";
+              setTimeout(() => (shareButton.textContent = "Share Card"), 1400);
+            } catch (err) {
+              alert("Copy failed. Share this link: " + shareData.url);
+            }
+          } else {
+            alert("Share this link: " + shareData.url);
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
