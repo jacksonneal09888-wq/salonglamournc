@@ -123,7 +123,7 @@
       .buttons {
         margin: 20px 0 12px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        grid-template-columns: 1fr 1fr;
         gap: 12px;
       }
 
@@ -138,6 +138,8 @@
         border: 1px solid transparent;
         transition: transform 120ms ease, box-shadow 120ms ease;
         cursor: pointer;
+        min-height: 46px;
+        width: 100%;
       }
 
       .btn-primary {
@@ -190,6 +192,10 @@
 
         .name {
           font-size: 1.6rem;
+        }
+
+        .buttons {
+          grid-template-columns: 1fr;
         }
       }
     </style>
