@@ -10,11 +10,12 @@
     />
     <style>
       :root {
-        --sand: #f3e5c1;
-        --clay: #c47c61;
-        --rose: #d69782;
+        --dark-terracotta: #5a3a33;
+        --earthy-olive: #796e54;
+        --desert-coral: #d99b85;
+        --light-peachy: #ebc8b5;
+        --pale-pink: #f4e6f5;
         --charcoal: #2f2a28;
-        --accent: #8f583c;
       }
 
       * {
@@ -28,10 +29,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.35), transparent 35%),
-          radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.2), transparent 30%),
-          linear-gradient(160deg, var(--clay), var(--rose), var(--sand));
-        padding: 24px;
+        background: linear-gradient(140deg, var(--pale-pink), var(--light-peachy) 45%, var(--desert-coral));
+        padding: 18px;
         font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         color: var(--charcoal);
       }
@@ -39,29 +38,27 @@
       .card {
         width: 100%;
         max-width: 440px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.94);
+        border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
-        border: 1px solid rgba(255, 255, 255, 0.55);
-        backdrop-filter: blur(6px);
+        box-shadow: 0 16px 38px rgba(90, 58, 51, 0.28);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(8px);
       }
 
       .hero {
         position: relative;
         overflow: hidden;
+        padding: 14px 14px 4px;
       }
 
       .hero img {
         width: 100%;
+        max-height: 280px;
+        object-fit: cover;
         display: block;
-      }
-
-      .hero::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.25));
+        border-radius: 16px;
+        box-shadow: 0 12px 26px rgba(47, 42, 40, 0.25);
       }
 
       .content {
@@ -74,18 +71,19 @@
         font-size: 1.8rem;
         letter-spacing: 0.5px;
         margin-bottom: 4px;
+        color: var(--dark-terracotta);
       }
 
       .title {
         font-size: 1rem;
-        color: #4a433f;
-        margin-bottom: 14px;
+        color: var(--earthy-olive);
+        margin-bottom: 12px;
         font-weight: 600;
       }
 
       .tagline {
         font-size: 0.98rem;
-        color: #5e524c;
+        color: #4f433f;
         margin-bottom: 16px;
       }
 
@@ -105,12 +103,12 @@
       .info-row svg {
         width: 18px;
         height: 18px;
-        color: var(--accent);
+        color: var(--earthy-olive);
         flex-shrink: 0;
       }
 
       a {
-        color: var(--accent);
+        color: var(--dark-terracotta);
         text-decoration: none;
         font-weight: 600;
       }
@@ -120,10 +118,10 @@
       }
 
       .buttons {
-        margin: 18px 0 12px;
+        margin: 20px 0 12px;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        gap: 12px;
       }
 
       .btn {
@@ -139,13 +137,13 @@
       }
 
       .btn-primary {
-        background: linear-gradient(120deg, var(--clay), var(--rose));
+        background: linear-gradient(130deg, var(--dark-terracotta), var(--desert-coral));
         color: #fff;
-        box-shadow: 0 8px 20px rgba(196, 124, 97, 0.35);
+        box-shadow: 0 8px 20px rgba(90, 58, 51, 0.35);
       }
 
       .btn-secondary {
-        background: #f8f3ec;
+        background: var(--pale-pink);
         color: var(--charcoal);
         border-color: rgba(0, 0, 0, 0.06);
       }
@@ -201,9 +199,16 @@
       <div class="content">
         <div class="name">Linda</div>
         <div class="title">Prima Beauty</div>
-        <div class="tagline">Western-feminine vibe with an earthy palette.</div>
+        <div class="tagline">Western-feminine energy with terracotta + olive warmth.</div>
 
         <div class="info-grid">
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M6.5 4h3l1.3 4.3-2.1 1.2a10 10 0 0 0 5.8 5.8l1.2-2.1 4.3 1.3v3a2 2 0 0 1-2.2 2 17 17 0 0 1-15-15A2 2 0 0 1 6.5 4Z" />
+            </svg>
+            <a href="tel:+13365219528">(336) 521-9528</a>
+          </div>
+
           <div class="info-row">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
               <path d="M4 4h16v16H4z" stroke-linejoin="round" />
@@ -242,6 +247,7 @@
             target="_blank"
             >Book Now</a
           >
+          <a class="btn btn-secondary" href="tel:+13365219528">Call Salon</a>
           <a class="btn btn-secondary" href="/cards/linda.vcf" download>Save Contact</a>
         </div>
 
