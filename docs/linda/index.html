@@ -79,12 +79,15 @@
       .title {
         font-size: 1rem;
         color: var(--earthy-olive);
-        margin-bottom: 12px;
+        margin-bottom: 6px;
         font-weight: 600;
       }
 
-      .tagline {
-        display: none;
+      .subtitle {
+        font-size: 0.95rem;
+        color: #4f433f;
+        margin-bottom: 12px;
+        font-weight: 600;
       }
 
       .info-grid {
@@ -245,11 +248,11 @@
             class="btn btn-primary"
             href="https://book.squareup.com/appointments/xzwxbrdzvqp39y/location/RP38RJ3DZ5D4R/services"
             target="_blank"
-            >Book Now</a
+            >Book Now / Reservar</a
           >
-          <a class="btn btn-secondary" href="tel:+13365219528">Call Salon</a>
-          <a class="btn btn-secondary" href="/cards/linda.vcf" download>Save Contact</a>
-          <button class="btn btn-secondary" id="share-card" type="button">Share Card</button>
+          <a class="btn btn-secondary" href="tel:+13365219528">Call Salon / Llamar</a>
+          <a class="btn btn-secondary" href="/cards/linda.vcf" download>Save Contact / Guardar contacto</a>
+          <button class="btn btn-secondary" id="share-card" type="button">Share Card / Compartir</button>
         </div>
 
         <div class="qr">
@@ -283,7 +286,7 @@
             try {
               await navigator.clipboard.writeText(shareData.url);
               shareButton.textContent = "Link Copied";
-              setTimeout(() => (shareButton.textContent = "Share Card"), 1400);
+              setTimeout(() => (shareButton.textContent = "Share Card / Compartir"), 1400);
             } catch (err) {
               alert("Copy failed. Share this link: " + shareData.url);
             }
