@@ -249,11 +249,11 @@ p {
 }
 
 .btn.primary {
-  --btn-bg: linear-gradient(135deg, #c99a2f, #f4d76c);
-  --btn-border: rgba(0, 0, 0, 0.08);
-  --btn-color: #0a0a0a;
-  --btn-shadow: 0 18px 42px rgba(0, 0, 0, 0.32);
-  --btn-hover-shadow: 0 22px 52px rgba(0, 0, 0, 0.36);
+  --btn-bg: linear-gradient(135deg, #f5c59a, #e9a86c);
+  --btn-border: rgba(0, 0, 0, 0.06);
+  --btn-color: #2b1d12;
+  --btn-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  --btn-hover-shadow: 0 22px 50px rgba(0, 0, 0, 0.32);
   backdrop-filter: none;
 }
 
