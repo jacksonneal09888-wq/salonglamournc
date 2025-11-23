@@ -505,7 +505,7 @@ p {
 
 .service-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.4rem;
 }
 
@@ -558,17 +558,18 @@ p {
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
 }
 
 .gallery-card {
   margin: 0;
-  border-radius: var(--radius);
+  border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   cursor: pointer;
+  position: relative;
 }
 
 .gallery-card img {
@@ -576,12 +577,25 @@ p {
   height: 230px;
   object-fit: cover;
   display: block;
-  transition: transform 0.35s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .gallery-card img:focus-visible,
 .gallery-card img:hover {
   transform: scale(1.05);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-card figcaption {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 0.2px;
 }
 
 .social-feed {
@@ -1398,3 +1412,57 @@ p {
   gap: 0.9rem;
 }
 .
+
+
+.team {
+  padding: 40px 0 60px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.team-card {
+  background: linear-gradient(140deg, #f2e8e4, #e9d6c9);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 16px 38px rgba(90, 58, 51, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.team-photo img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  max-height: 420px;
+}
+
+.team-copy {
+  padding: 16px 18px 20px;
+}
+
+.team-copy h3 {
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+
+.team-copy p {
+  margin-bottom: 12px;
+  color: #4b413c;
+}
+
+.team-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: #2f2a28;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
