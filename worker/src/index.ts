@@ -439,15 +439,41 @@ async function fetchSquareAvailability(env: Env, params: z.infer<typeof availabi
 }
 
 async function createSquareBooking(env: Env, payload: z.infer<typeof squareBookingSchema>) {
-  const enforced = {
-    ...payload,
-    location_id: env.SQUARE_LOCATION_ID,
-    idempotency_key: payload.idempotency_key ?? `booking_${cryptoRandomId()}`
+  const customerId = await ensureSquareCustomer(env, payload.customer_details);
+  const bookingBody = {
+    idempotency_key: payload.idempotency_key ?? `booking_${cryptoRandomId()}`,
+    booking: {
+      location_id: env.SQUARE_LOCATION_ID,
+      customer_id: customerId,
+      start_at: payload.start_at,
+      appointment_segments: payload.appointment_segments.map((seg) => ({
+        duration_minutes: seg.duration_minutes,
+        service_variation_id: seg.service_variation_id,
+        service_variation_version: seg.service_variation_version,
+        team_member_id: seg.team_member_id
+      }))
+    }
   };
   const response = await squareRequest<any>(env, '/v2/bookings', {
-    body: enforced
+    body: bookingBody
   });
   return response.booking;
+}
+
+async function ensureSquareCustomer(
+  env: Env,
+  customer: { given_name?: string; email_address?: string; phone_number?: string } | undefined
+) {
+  const idempotencyKey = `cust_${cryptoRandomId()}`;
+  const response = await squareRequest<any>(env, '/v2/customers', {
+    body: {
+      idempotency_key: idempotencyKey,
+      given_name: customer?.given_name ?? 'Guest',
+      email_address: customer?.email_address,
+      phone_number: customer?.phone_number
+    }
+  });
+  return response.customer?.id ?? null;
 }
 
 async function persistBooking(env: Env, booking: any) {
