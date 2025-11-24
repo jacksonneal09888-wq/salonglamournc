@@ -1,0 +1,18 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2020",
+    "moduleResolution": "Bundler",
+    "types": [
+      "@cloudflare/workers-types",
+      "node"
+    ],
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true
+  },
+  "include": [
+    "src"
+  ]
+}
