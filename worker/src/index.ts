@@ -77,15 +77,15 @@ app.use(
 app.get('/health', (c) => {
   const { env } = c;
   const squareConfigured = Boolean(env.SQUARE_ACCESS_TOKEN && env.SQUARE_LOCATION_ID);
-  console.log('health check squareConfigured', squareConfigured, {
-    hasToken: !!env.SQUARE_ACCESS_TOKEN,
-    hasLocation: !!env.SQUARE_LOCATION_ID,
-    keys: Object.keys(env)
-  });
   return c.json({
     status: 'ok',
     time: new Date().toISOString(),
-    squareConfigured
+    squareConfigured,
+    debug: {
+      hasToken: !!env.SQUARE_ACCESS_TOKEN,
+      hasLocation: !!env.SQUARE_LOCATION_ID,
+      keys: Object.keys(env)
+    }
   });
 });
 
