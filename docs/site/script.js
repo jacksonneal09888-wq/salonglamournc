@@ -1,5 +1,5 @@
 (() => {
-  const squareFallback = 'https://book.squareup.com/appointments/xzwxbrdzvqp39y/location/RP38RJ3DZ5D4R';
+  const squareFallback = 'https://salonglamournc.com/site/booking/';
   const squareUrl = typeof window !== 'undefined' && window.SQUARE_URL ? window.SQUARE_URL : squareFallback;
   const phoneNumber = '+13365219528';
   const phoneDisplay = '(336) 521-9528';

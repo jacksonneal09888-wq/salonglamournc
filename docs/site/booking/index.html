@@ -181,13 +181,13 @@
 
   <script>
     window.__BOOKING_CONFIG = {
-      squareBookingEndpoint: '/api/bookings',
-      squareAvailabilityEndpoint: '/api/availability',
-      googleCalendarEndpoint: '/api/google/calendar',
-      servicesEndpoint: '/api/services',
-      teamEndpoint: '/api/team',
+      squareBookingEndpoint: 'https://salon-worker.jacksonneal09888.workers.dev/api/bookings',
+      squareAvailabilityEndpoint: 'https://salon-worker.jacksonneal09888.workers.dev/api/availability',
+      googleCalendarEndpoint: '',
+      servicesEndpoint: 'https://salon-worker.jacksonneal09888.workers.dev/api/services',
+      teamEndpoint: 'https://salon-worker.jacksonneal09888.workers.dev/api/team',
       timeZone: 'America/New_York',
-      embedUrl: (window.location.origin === 'null' ? '' : `${window.location.origin}/booking`),
+      embedUrl: (window.location.origin === 'null' ? '' : `${window.location.origin}/site/booking`),
       useMockAvailability: false,
       useMockCatalog: false
     };
