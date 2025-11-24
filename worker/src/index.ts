@@ -418,9 +418,9 @@ async function fetchSquareAvailability(env: Env, params: z.infer<typeof availabi
           end_at: end.toISOString()
         },
         segment_filters: [segmentFilter]
-      },
-      limit: 60
-    }
+      }
+    },
+    limit: 60
   };
   const response = await squareRequest<any>(env, '/v2/bookings/availability/search', {
     body
