@@ -110,6 +110,13 @@ body {
   margin-top: 12px;
 }
 
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
 .service-card {
   border: 1px solid var(--border);
   border-radius: 18px;

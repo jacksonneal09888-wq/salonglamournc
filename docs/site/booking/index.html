@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Salon Glamour NC | Booking Sandbox</title>
-  <meta name="description" content="Internal booking sandbox for Salon Glamour NC that keeps Square for payments while testing a custom UI.">
+  <title>Salon Glamour NC | Book Online</title>
+  <meta name="description" content="Schedule your service with Salon Glamour NC.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
@@ -13,14 +13,11 @@
 <body>
   <div class="booking-shell">
     <header class="booking-hero">
-      <p class="hero-eyebrow">Salon Glamour NC &middot; Internal Beta</p>
-      <h1>Custom Booking Orchestrator</h1>
-      <p>
-        Keep Square for payments and staff data while you trial-drive the custom booking flow. Use the controls below to pull services, assign stylists in a round robin, and preview the Square + Google Calendar payloads before you wire up the live APIs.
-      </p>
+      <p class="hero-eyebrow">Salon Glamour NC &middot; Asheboro</p>
+      <h1>Book your visit</h1>
+      <p>Choose your service, pick a time, and we’ll confirm your appointment.</p>
       <div class="hero-actions">
-        <a class="link-pill" href="../index.html">&larr; Back to public site</a>
-        <button class="ghost small" type="button" id="demoBooking">Drop in demo data</button>
+        <a class="link-pill" href="../index.html">&larr; Back to site</a>
       </div>
     </header>
 
@@ -29,8 +26,9 @@
         <form id="bookingForm" autocomplete="off">
           <fieldset class="form-section">
             <legend>1. Choose a service</legend>
+            <div class="filter-pills" id="serviceFilters" role="radiogroup" aria-label="Service categories"></div>
             <div class="option-grid" id="serviceList" role="radiogroup" aria-label="Salon services"></div>
-            <p class="hint">This will map directly to your Square Catalog service variation IDs.</p>
+            <p class="hint">Tap a category to narrow services, then pick your service.</p>
           </fieldset>
 
           <fieldset class="form-section">
@@ -50,7 +48,7 @@
                 </div>
               </label>
             </div>
-            <p class="hint" id="availabilityStatus">Availability uses mocked data until you connect the Square Appointments API.</p>
+            <p class="hint" id="availabilityStatus">Loads live availability once you choose a service.</p>
           </fieldset>
 
           <fieldset class="form-section">
@@ -102,8 +100,8 @@
           </fieldset>
 
           <div class="form-actions">
-            <button class="primary" type="submit" data-submit-button>Preview + queue booking</button>
-            <p class="hint">Submitting keeps the booking local; wire it to your backend whenever you're ready.</p>
+            <button class="primary" type="submit" data-submit-button>Confirm booking</button>
+            <p class="hint">You’ll get a confirmation after submission.</p>
           </div>
         </form>
       </section>
@@ -133,47 +131,6 @@
               <dd data-summary="notes">Optional</dd>
             </div>
           </dl>
-        </div>
-
-        <div class="payload-card">
-          <div class="payload-head">
-            <h3>Square Appointments payload</h3>
-            <button type="button" class="ghost small" data-copy="square">Copy JSON</button>
-          </div>
-          <pre id="squarePayload">{\n  "idempotency_key": "pending",\n  "location_id": "XXXX",\n  "appointment_segments": []\n}</pre>
-        </div>
-
-        <div class="payload-card">
-          <div class="payload-head">
-            <h3>Google Calendar payload</h3>
-            <button type="button" class="ghost small" data-copy="google">Copy JSON</button>
-          </div>
-          <pre id="googlePayload">{\n  "summary": "pending"\n}</pre>
-        </div>
-
-        <div class="integration-card">
-          <h3>Integration checklist</h3>
-          <ul>
-            <li data-integration="square">
-              <span>Square Appointments API</span>
-              <span class="status-badge">Mock mode</span>
-            </li>
-            <li data-integration="google">
-              <span>Google Calendar API</span>
-              <span class="status-badge">Mock mode</span>
-            </li>
-            <li data-integration="embed">
-              <span>Embed on salonglamournc.com</span>
-              <span class="status-badge status-idle">Pending</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="activity-card">
-          <h3>Activity log</h3>
-          <ul id="activityLog">
-            <li>Waiting for first booking...</li>
-          </ul>
         </div>
       </section>
     </main>

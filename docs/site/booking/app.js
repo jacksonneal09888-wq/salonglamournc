@@ -96,6 +96,7 @@ let servicesById = new Map();
 let stylistsById = new Map();
 let roundRobin = createRoundRobin([]);
 let summaryInitialized = false;
+let categoryFilter = 'All';
 
 const fallbackServiceImages = [
   './assets/images/gallery-1.webp',
@@ -143,6 +144,7 @@ const stylistOverrides = new Map([
 
 const selectors = {
   bookingForm: document.getElementById('bookingForm'),
+  serviceFilters: document.getElementById('serviceFilters'),
   serviceList: document.getElementById('serviceList'),
   stylistList: document.getElementById('stylistList'),
   rotationPreview: document.getElementById('rotationPreview'),
@@ -190,6 +192,7 @@ const state = {
 
 async function bootstrap() {
   await initializeCatalog();
+  renderServiceFilters();
   renderServiceCards();
   renderStylists();
   setDefaultDate();
@@ -376,6 +379,14 @@ function selectServiceImage(slug, existingUrl) {
 }
 
 function attachListeners() {
+  selectors.serviceFilters?.addEventListener('click', event => {
+    const btn = event.target.closest('button[data-category]');
+    if (!btn) return;
+    categoryFilter = btn.dataset.category;
+    renderServiceFilters();
+    renderServiceCards();
+  });
+
   selectors.serviceList.addEventListener('change', event => {
     if (event.target.name === 'serviceId') {
       state.serviceId = event.target.value;
@@ -455,10 +466,16 @@ function attachListeners() {
     event.preventDefault();
     await handleSubmit();
   });
+}
 
-  document.querySelectorAll('[data-copy]').forEach(button => {
-    button.addEventListener('click', () => copyPayload(button.dataset.copy));
-  });
+function renderServiceFilters() {
+  const list = services.length ? services : fallbackServices;
+  const categories = Array.from(new Set(['All', ...list.map(svc => svc.category || 'Other')]));
+  selectors.serviceFilters.innerHTML = categories
+    .map(
+      cat => `<button type="button" data-category="${cat}" class="pill ${categoryFilter === cat ? 'active' : ''}">${cat}</button>`
+    )
+    .join('');
 }
 
 function renderServiceCards() {
@@ -471,7 +488,12 @@ function renderServiceCards() {
     return;
   }
 
-  services.forEach((service, index) => {
+  const filtered =
+    categoryFilter === 'All'
+      ? services
+      : services.filter(svc => (svc.category || 'Other') === categoryFilter);
+
+  filtered.forEach((service, index) => {
     const label = document.createElement('label');
     label.className = 'service-card';
     const input = document.createElement('input');
@@ -666,6 +688,7 @@ function updateSummary() {
 
   selectors.summaryFields.notes.textContent = state.notes || 'Optional';
 
+  if (!selectors.activityLog) return;
   if (!summaryInitialized) {
     selectors.activityLog.innerHTML = '';
     summaryInitialized = true;
@@ -705,8 +728,12 @@ async function handleSubmit() {
     state.date
   )} at ${formatTime(state.time)}`;
 
-  selectors.squarePayload.textContent = JSON.stringify(squarePayload, null, 2);
-  selectors.googlePayload.textContent = JSON.stringify(googlePayload, null, 2);
+  if (selectors.squarePayload) {
+    selectors.squarePayload.textContent = JSON.stringify(squarePayload, null, 2);
+  }
+  if (selectors.googlePayload) {
+    selectors.googlePayload.textContent = JSON.stringify(googlePayload, null, 2);
+  }
   updateRotationPreview();
   updateSummary();
 
@@ -849,6 +876,10 @@ function updateIntegrationStatus(key, text, stateClass = 'idle') {
 }
 
 function logAction(message, tone = 'info') {
+  if (!selectors.activityLog) {
+    console[tone === 'error' ? 'error' : 'log'](message);
+    return;
+  }
   if (!summaryInitialized) {
     selectors.activityLog.innerHTML = '';
     summaryInitialized = true;
