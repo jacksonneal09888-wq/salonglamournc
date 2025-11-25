@@ -97,6 +97,18 @@ let stylistsById = new Map();
 let roundRobin = createRoundRobin([]);
 let summaryInitialized = false;
 let categoryFilter = 'All';
+const categoryOrder = [
+  'Haircuts & Barbering',
+  'Hair Color',
+  'Lashes & Brows',
+  'Makeup',
+  'Facials & Skin',
+  'Waxing',
+  'Nails',
+  'Kids',
+  'Packages',
+  'Other'
+];
 
 const fallbackServiceImages = [
   './assets/images/gallery-1.webp',
@@ -296,7 +308,7 @@ function normalizeServices(rawList) {
       const normalized = {
         id,
         name,
-        category: raw.category ?? raw.categoryName ?? 'Salon Service',
+        category: raw.category ?? raw.categoryName ?? categorizeService(name),
         duration,
         price,
         description: raw.description ?? '',
@@ -322,6 +334,20 @@ function normalizeServices(rawList) {
       return true;
     })
     .sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name));
+}
+
+function categorizeService(name) {
+  const n = name.toLowerCase();
+  if (n.includes('lash') || n.includes('brow')) return 'Lashes & Brows';
+  if (n.includes('color') || n.includes('balayage') || n.includes('highlight') || n.includes('gloss') || n.includes('tone')) return 'Hair Color';
+  if (n.includes('cut') || n.includes('barber') || n.includes('fade') || n.includes('haircut') || n.includes('trim')) return 'Haircuts & Barbering';
+  if (n.includes('makeup') || n.includes('bridal')) return 'Makeup';
+  if (n.includes('facial') || n.includes('skin') || n.includes('derma') || n.includes('peel') || n.includes('microderm')) return 'Facials & Skin';
+  if (n.includes('wax') || n.includes('thread')) return 'Waxing';
+  if (n.includes('nail') || n.includes('mani') || n.includes('pedi')) return 'Nails';
+  if (n.includes('kid')) return 'Kids';
+  if (n.includes('package')) return 'Packages';
+  return 'Other';
 }
 
 function normalizeStylists(rawList) {
@@ -471,10 +497,12 @@ function attachListeners() {
 function renderServiceFilters() {
   const list = services.length ? services : fallbackServices;
   const categories = Array.from(new Set(['All', ...list.map(svc => svc.category || 'Other')]));
-  selectors.serviceFilters.innerHTML = categories
-    .map(
-      cat => `<button type="button" data-category="${cat}" class="pill ${categoryFilter === cat ? 'active' : ''}">${cat}</button>`
-    )
+  const sorted = ['All', ...categoryOrder.filter(cat => categories.includes(cat)), ...categories.filter(cat => !categoryOrder.includes(cat) && cat !== 'All')];
+  selectors.serviceFilters.innerHTML = sorted
+    .map(cat => {
+      const count = cat === 'All' ? list.length : list.filter(svc => (svc.category || 'Other') === cat).length;
+      return `<button type="button" data-category="${cat}" class="pill ${categoryFilter === cat ? 'active' : ''}">${cat} <span class="pill-count">${count}</span></button>`;
+    })
     .join('');
 }
 
