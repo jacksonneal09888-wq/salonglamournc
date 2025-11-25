@@ -225,6 +225,7 @@ let servicesById = new Map();
 let stylistsById = new Map();
 let roundRobin = createRoundRobin([]);
 let summaryInitialized = false;
+let currentEligibleStylists = [];
 
 const fallbackServiceImages = [
   './assets/images/gallery-1.webp',
@@ -359,8 +360,6 @@ const selectors = {
   clientEmail: document.getElementById('clientEmail'),
   notesInput: document.getElementById('notesInput'),
   demoBookingBtn: document.getElementById('demoBooking'),
-  runTestsBtn: document.getElementById('runTests'),
-  testResults: document.getElementById('testResults'),
   submitButton: document.querySelector('[data-submit-button]'),
   summaryFields: {
     service: document.querySelector('[data-summary="service"]'),
@@ -418,7 +417,7 @@ async function bootstrap() {
   renderFeaturedServices();
   renderPopularBadges();
   renderSocialProof();
-  renderStylists();
+  updateEligibleStylists();
   setDefaultDate();
   attachListeners();
   updateRotationPreview();
@@ -487,7 +486,8 @@ async function initializeCatalog() {
 function finalizeCatalogState() {
   servicesById = new Map(services.map(service => [service.id, service]));
   stylistsById = new Map(stylists.map(stylist => [stylist.id, stylist]));
-  roundRobin = createRoundRobin(stylists);
+  currentEligibleStylists = stylists;
+  roundRobin = createRoundRobin(currentEligibleStylists);
   if (!state.serviceId || !servicesById.has(state.serviceId)) {
     state.serviceId = services[0]?.id ?? null;
   }
@@ -664,6 +664,7 @@ function attachListeners() {
     if (event.target.name === 'serviceId') {
       state.serviceId = event.target.value;
       state.selectedAddOns = new Set();
+      updateEligibleStylists();
       renderAddOns();
       loadAvailability();
       updateSummary();
@@ -676,6 +677,7 @@ function attachListeners() {
     state.serviceCategory = category;
     state.openCategories = new Set(category === ALL_CATEGORIES ? [] : [category]);
     renderServiceCards();
+    updateEligibleStylists();
     loadAvailability();
   });
   selectors.serviceSearch?.addEventListener('input', event => {
@@ -751,8 +753,6 @@ function attachListeners() {
       fillDemoBooking();
     });
   }
-
-  selectors.runTestsBtn?.addEventListener('click', () => runTestBookings());
 
   selectors.bookingForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -871,6 +871,7 @@ function renderServiceCards() {
         input.checked = state.serviceId ? state.serviceId === service.id : index === 0 && categoryIndex === 0;
         if (input.checked) {
           state.serviceId = service.id;
+          updateEligibleStylists(service);
         }
 
         const metaRow = document.createElement('div');
@@ -954,8 +955,15 @@ function createCategoryButton(label, value, active) {
 }
 
 function renderStylists() {
+  const service = servicesById.get(state.serviceId);
+  const eligible = getEligibleStylists(service);
+  currentEligibleStylists = eligible;
+  roundRobin = createRoundRobin(currentEligibleStylists);
+  if (state.stylistMode === 'manual' && state.stylistId && !currentEligibleStylists.find(s => s.id === state.stylistId)) {
+    state.stylistId = currentEligibleStylists[0]?.id ?? null;
+  }
   selectors.stylistList.innerHTML = '';
-  if (!stylists.length) {
+  if (!eligible.length) {
     const empty = document.createElement('p');
     empty.className = 'hint';
     empty.textContent = 'No team members available. Update Square to assign staff.';
@@ -963,7 +971,7 @@ function renderStylists() {
     return;
   }
 
-  stylists.forEach((stylist, index) => {
+  eligible.forEach((stylist, index) => {
     const label = document.createElement('label');
     label.className = 'stylist-card';
     const input = document.createElement('input');
@@ -1004,6 +1012,26 @@ function renderStylists() {
     label.appendChild(metaWrapper);
     selectors.stylistList.appendChild(label);
   });
+}
+
+function updateEligibleStylists(serviceOverride) {
+  const service = serviceOverride ?? servicesById.get(state.serviceId);
+  currentEligibleStylists = getEligibleStylists(service);
+  roundRobin = createRoundRobin(currentEligibleStylists);
+  if (state.stylistMode === 'manual' && state.stylistId && !currentEligibleStylists.find(s => s.id === state.stylistId)) {
+    state.stylistId = currentEligibleStylists[0]?.id ?? null;
+  }
+  renderStylists();
+  updateRotationPreview();
+  updateSummary();
+}
+
+function getEligibleStylists(service) {
+  if (!service) return stylists;
+  const ids = Array.isArray(service.teamMemberIds) ? service.teamMemberIds.filter(Boolean).map(String) : [];
+  if (!ids.length) return stylists;
+  const set = new Set(ids);
+  return stylists.filter(stylist => set.has(stylist.squareStaffId) || set.has(stylist.id));
 }
 
 function getServiceBadges(service) {
@@ -1060,6 +1088,7 @@ function renderFeaturedServices() {
       state.serviceCategory = service.category;
       state.openCategories = new Set([service.category]);
       state.selectedAddOns = new Set();
+      updateEligibleStylists(service);
       renderServiceCards();
       renderAddOns();
       loadAvailability();
@@ -1570,18 +1599,6 @@ function logAction(message, tone = 'info') {
   }
 }
 
-function renderTestResults(items = []) {
-  if (!selectors.testResults) return;
-  selectors.testResults.innerHTML = '';
-  if (!items.length) return;
-  items.forEach(item => {
-    const row = document.createElement('div');
-    row.className = `test-row ${item.status || ''}`;
-    row.textContent = item.message;
-    selectors.testResults.appendChild(row);
-  });
-}
-
 function setFormBusy(isBusy) {
   const button = selectors.submitButton;
   if (!button) return;
@@ -1611,38 +1628,6 @@ function queueIntegration({ key, url, payload, pendingText, successText, onSucce
       logAction(`${label} error: ${error.message || 'Request failed'}`, 'error');
       throw error;
     });
-}
-
-function runTestBookings() {
-  const results = [];
-  if (!stylists.length) {
-    renderTestResults([{ message: 'No stylists available for testing.', status: 'error' }]);
-    return;
-  }
-  const service = services[0];
-  if (!service) {
-    renderTestResults([{ message: 'No services available for testing.', status: 'error' }]);
-    return;
-  }
-  const testDate = new Date();
-  const iso = testDate.toISOString().split('T')[0];
-  const start = combineDateTime(iso, '10:00');
-  const end = new Date(start.getTime() + service.duration * 60000);
-  results.push({
-    message: `Test run using ${service.name} on ${formatHumanDate(iso)} at 10:00 (not sent).`,
-    status: 'info'
-  });
-  stylists.forEach(stylist => {
-    const payload = buildSquarePayload(service, stylist, start, end);
-    payload.metadata.test_run = true;
-    payload.customer_note = [payload.customer_note, 'TEST APPOINTMENT - IGNORE'].filter(Boolean).join(' | ');
-    results.push({
-      message: `Prepared test payload for ${stylist.name} (${stylist.specialties})`,
-      status: 'success'
-    });
-    console.log('Test payload (not sent):', stylist.name, payload);
-  });
-  renderTestResults(results);
 }
 
 async function sendJson(url, payload) {
