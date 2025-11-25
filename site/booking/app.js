@@ -176,39 +176,46 @@ const fallbackServices = [
 
 const fallbackStylists = [
   {
-    id: 'QtBlDWuSwRfPAmfPAdMo',
-    name: 'Cecilia Garcia-Torres',
-    specialties: 'Owner / Master Stylist',
+    id: 'alex-zamora',
+    name: 'Alex Zamora',
+    specialties: 'Cuts / Barbering',
     calendarEmail: 'salonglamournc@gmail.com',
-    squareStaffId: 'QtBlDWuSwRfPAmfPAdMo'
+    squareStaffId: 'alex-zamora'
   },
   {
-    id: 'TMoC0HYrTtI1d030',
+    id: 'daniela-fernandez',
+    name: 'Daniela Fernandez',
+    specialties: 'Color / Styling',
+    calendarEmail: 'salonglamournc@gmail.com',
+    squareStaffId: 'daniela-fernandez'
+  },
+  {
+    id: 'esperanza-garcia',
     name: 'Esperanza Garcia',
     specialties: 'Barber / Stylist',
-    calendarEmail: 'esperanzagarciatorres86@gmail.com',
-    squareStaffId: 'TMoC0HYrTtI1d030'
+    calendarEmail: 'salonglamournc@gmail.com',
+    squareStaffId: 'esperanza-garcia'
   },
   {
-    id: 'TM4GMI7mifHgMITv',
+    id: 'linda-fuentes',
+    name: 'Linda Fuentes',
+    specialties: 'Nails / Pedicure',
+    calendarEmail: 'salonglamournc@gmail.com',
+    squareStaffId: 'linda-fuentes'
+  },
+  {
+    id: 'marcela-burciaga',
     name: 'Marcela Burciaga',
-    specialties: 'Lash Tech',
-    calendarEmail: 'marcelaburciaga@icloud.com',
-    squareStaffId: 'TM4GMI7mifHgMITv'
+    specialties: 'Lashes / Brows',
+    calendarEmail: 'salonglamournc@gmail.com',
+    squareStaffId: 'marcela-burciaga'
   },
   {
-    id: 'NAIL-TECH-01',
-    name: 'Lina Romero',
-    specialties: 'Nails / Gel / Pedicure',
+    id: 'cecilia-garcia',
+    name: 'Cecilia Garcia',
+    specialties: 'Owner / Master Stylist',
     calendarEmail: 'salonglamournc@gmail.com',
-    squareStaffId: 'NAIL-TECH-01'
-  },
-  {
-    id: 'ESTHETICIAN-01',
-    name: 'Kayla Nguyen',
-    specialties: 'Facials / Waxing / Brows',
-    calendarEmail: 'salonglamournc@gmail.com',
-    squareStaffId: 'ESTHETICIAN-01'
+    squareStaffId: 'cecilia-garcia'
   }
 ];
 
@@ -248,15 +255,7 @@ const SALON_PHONE_DISPLAY = '(336) 521-9528';
 const SALON_PHONE_E164 = '+13365219528';
 const stylistOverrides = new Map([
   [
-    'QtBlDWuSwRfPAmfPAdMo',
-    {
-      name: 'Cecii',
-      specialties: 'Owner / Master Stylist',
-      calendarEmail: 'salonglamournc@gmail.com'
-    }
-  ],
-  [
-    'TMoC0HYrTtI1d030',
+    'esperanza-garcia',
     {
       name: 'Esperanza Garcia',
       specialties: 'Cuts & Barbering',
@@ -264,9 +263,9 @@ const stylistOverrides = new Map([
     }
   ],
   [
-    'TM4GMI7mifHgMITv',
+    'marcela-burciaga',
     {
-      name: 'Marcela',
+      name: 'Marcela Burciaga',
       specialties: 'Brows & Lashes',
       calendarEmail: 'salonglamournc@gmail.com'
     }
