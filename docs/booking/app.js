@@ -453,8 +453,8 @@ async function initializeCatalog() {
 
   try {
     const [servicePayload, teamPayload] = await Promise.all([
-      config.servicesEndpoint ? fetchJson(config.servicesEndpoint) : Promise.resolve(null),
-      config.teamEndpoint ? fetchJson(config.teamEndpoint) : Promise.resolve(null)
+      config.servicesEndpoint && !config.useMockCatalog ? fetchJson(config.servicesEndpoint) : Promise.resolve(null),
+      config.teamEndpoint && !config.useMockCatalog ? fetchJson(config.teamEndpoint) : Promise.resolve(null)
     ]);
 
     const fetchedServices = Array.isArray(servicePayload?.services) ? servicePayload.services : [];
