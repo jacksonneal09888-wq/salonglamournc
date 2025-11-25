@@ -163,6 +163,7 @@
 
   <script>
     (function configureBooking() {
+      // Force all API calls to the Worker (avoids GitHub Pages 404/405).
       const apiBase = 'https://salon-worker.jacksonneal09888.workers.dev';
       const { origin } = window.location;
       const makeEndpoint = path => `${apiBase}${path}`;
