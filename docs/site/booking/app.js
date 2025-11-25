@@ -25,7 +25,7 @@ const fallbackServices = [
     description: 'Classic clipper or shear cut tailored to you.',
     squareCatalogObjectId: 'XPFNIJBYQKTSBRFTNDNKHNIP',
     squareItemId: '2QVFNRFTBKWJVQB7VE4WM37C',
-    teamMemberIds: ['esperanza-garcia', 'cecilia-garcia-torres', 'daniela-fernandez'],
+    teamMemberIds: ['esperanza-garcia', 'cecilia-garcia-torres', 'daniela-fernandez', 'linda-fuentes'],
     imageUrl: './assets/images/gallery-1.webp'
   },
   {
@@ -37,7 +37,7 @@ const fallbackServices = [
     description: 'Fresh cut, blowout, and finish styling.',
     squareCatalogObjectId: 'GQGYDELSCAQUJEJUMV4GPMZA',
     squareItemId: 'M55RYLX4MP3PJYFIIMCIHRKY',
-    teamMemberIds: ['cecilia-garcia-torres', 'daniela-fernandez', 'esperanza-garcia'],
+    teamMemberIds: ['cecilia-garcia-torres', 'daniela-fernandez', 'esperanza-garcia', 'linda-fuentes'],
     imageUrl: './assets/images/gallery-2.jpg'
   },
   {
@@ -49,7 +49,7 @@ const fallbackServices = [
     description: 'Complete lash extension set with custom styling.',
     squareCatalogObjectId: 'TUTAON3HQ7JVHHMLQD7WNRXU',
     squareItemId: 'R2STVBD2ZGZ25V7CW52H533T',
-    teamMemberIds: ['marcela-burciaga'],
+    teamMemberIds: ['marcela-burciaga', 'linda-fuentes'],
     imageUrl: './assets/images/gallery-3.webp'
   },
   {
@@ -61,7 +61,7 @@ const fallbackServices = [
     description: 'Refresh and refill existing lash extensions.',
     squareCatalogObjectId: 'SN5UMKVSZFNJHNMF2OJEV5QP',
     squareItemId: 'PS55TCSXELUCJUAO6DKD3FP2',
-    teamMemberIds: ['marcela-burciaga'],
+    teamMemberIds: ['marcela-burciaga', 'linda-fuentes'],
     imageUrl: './assets/images/gallery-4.jpg'
   },
   {
@@ -109,7 +109,7 @@ const fallbackServices = [
     description: 'Cuticle care, shaping, and gel polish.',
     squareCatalogObjectId: 'GEL-MANI',
     squareItemId: null,
-    teamMemberIds: ['alexa-zamora', 'linda-fuentes'],
+    teamMemberIds: ['alexa-zamora'],
     imageUrl: './assets/images/gallery-4.jpg'
   },
   {
@@ -121,7 +121,7 @@ const fallbackServices = [
     description: 'Spa pedicure with gel polish finish.',
     squareCatalogObjectId: 'GEL-PEDI',
     squareItemId: null,
-    teamMemberIds: ['alexa-zamora', 'linda-fuentes'],
+    teamMemberIds: ['alexa-zamora'],
     imageUrl: './assets/images/gallery-4.jpg'
   },
   {
@@ -133,7 +133,7 @@ const fallbackServices = [
     description: 'Smooth, lifted brows with tint option.',
     squareCatalogObjectId: 'BROW-LAM',
     squareItemId: null,
-    teamMemberIds: ['marcela-burciaga'],
+    teamMemberIds: ['marcela-burciaga', 'linda-fuentes'],
     imageUrl: './assets/images/gallery-3.webp'
   },
   {
@@ -145,7 +145,7 @@ const fallbackServices = [
     description: 'Curl + deepen lashes for a mascara-free look.',
     squareCatalogObjectId: 'LASH-LIFT',
     squareItemId: null,
-    teamMemberIds: ['marcela-burciaga'],
+    teamMemberIds: ['marcela-burciaga', 'linda-fuentes'],
     imageUrl: './assets/images/gallery-3.webp'
   },
   {
@@ -199,7 +199,7 @@ const fallbackStylists = [
   {
     id: 'linda-fuentes',
     name: 'Linda Fuentes',
-    specialties: 'Nails / Pedicure',
+    specialties: 'Hair / Lashes / Waxing',
     calendarEmail: 'salonglamournc@gmail.com',
     squareStaffId: 'linda-fuentes'
   },
