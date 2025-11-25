@@ -55,6 +55,13 @@ body {
   pointer-events: none;
 }
 
+@media (max-width: 720px) {
+  .booking-hero {
+    background-position: center 55%, center;
+    background-size: 260px auto, auto;
+  }
+}
+
 .booking-hero > * {
   position: relative;
 }
