@@ -1266,6 +1266,10 @@ async function loadAvailability(forceMock = false) {
   if (!state.serviceId || !state.date) return;
   const service = servicesById.get(state.serviceId);
   if (!service) return;
+  const roster =
+    state.stylistMode === 'manual' && state.stylistId
+      ? stylists.filter(s => s.id === state.stylistId || s.squareStaffId === state.stylistId)
+      : stylists;
   setAvailabilityStatus('Fetching availability...');
   selectors.timeSelect.disabled = true;
   selectors.timeSelect.innerHTML = '<option>Loading...</option>';
@@ -1273,14 +1277,18 @@ async function loadAvailability(forceMock = false) {
     const availability = await SquareAvailability.fetch({
       service,
       date: state.date,
-      stylists,
+      stylists: roster,
       forceMock: forceMock || config.useMockAvailability
     });
-    populateSlots(availability?.slots || []);
-    renderAvailabilityMeter(availability?.slots || []);
+    const slots = availability?.slots || [];
+    populateSlots(slots);
+    renderAvailabilityMeter(slots, summarizeSlots(slots));
+    const summary = summarizeSlots(slots);
     setAvailabilityStatus(
       availability?.source === 'square'
-        ? `Live availability loaded instantly · refreshed ${timeStamp()}`
+        ? summary.open > 0
+          ? `Live availability loaded · ${summary.open} open${summary.held ? `, ${summary.held} held` : ''}`
+          : 'Fully booked for this date.'
         : `Mock data for testing · refreshed ${timeStamp()}`
     );
   } catch (error) {
@@ -1292,8 +1300,9 @@ async function loadAvailability(forceMock = false) {
       stylists,
       forceMock: true
     });
-    populateSlots(mock?.slots || []);
-    renderAvailabilityMeter(mock?.slots || []);
+    const slots = mock?.slots || [];
+    populateSlots(slots);
+    renderAvailabilityMeter(slots, summarizeSlots(slots));
   } finally {
     selectors.timeSelect.disabled = false;
   }
@@ -1310,7 +1319,7 @@ function populateSlots(slots) {
   selectors.timeSelect.appendChild(new Option('Select a slot', '', true, false));
   slots.forEach(slot => {
     const option = new Option(
-      `${slot.label}${slot.status === 'held' ? ' - held' : ''}`,
+      `${slot.label}${slot.status && slot.status !== 'open' ? ` - ${slot.status}` : ''}`,
       slot.start,
       false,
       false
@@ -1331,20 +1340,32 @@ function populateSlots(slots) {
   updateSummary();
 }
 
-function renderAvailabilityMeter(slots) {
+function renderAvailabilityMeter(slots, summary = summarizeSlots(slots)) {
   if (!selectors.availabilityMeter) return;
   selectors.availabilityMeter.innerHTML = '';
-  const openSlots = slots.filter(slot => slot.status === 'open');
   const message = document.createElement('span');
-  if (!slots.length) {
-    message.textContent = 'Fully booked for this day.';
+  if (!slots.length || summary.open === 0) {
+    message.textContent = summary.held
+      ? `All held/booked (${summary.held} held)`
+      : 'Fully booked for this day.';
     message.className = 'availability-pill is-full';
   } else {
-    const count = openSlots.length;
-    message.textContent = `${count} spot${count === 1 ? '' : 's'} left today`;
-    message.className = count <= 2 ? 'availability-pill is-hot' : 'availability-pill';
+    message.textContent = `${summary.open} spot${summary.open === 1 ? '' : 's'} open${summary.held ? `, ${summary.held} held` : ''}`;
+    message.className = summary.open <= 2 ? 'availability-pill is-hot' : 'availability-pill';
   }
   selectors.availabilityMeter.appendChild(message);
+}
+
+function summarizeSlots(slots = []) {
+  return slots.reduce(
+    (acc, slot) => {
+      if (slot.status === 'open') acc.open += 1;
+      else if (slot.status === 'held') acc.held += 1;
+      else acc.booked += 1;
+      return acc;
+    },
+    { open: 0, held: 0, booked: 0 }
+  );
 }
 
 function updateRotationPreview() {
