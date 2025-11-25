@@ -63,6 +63,114 @@ const fallbackServices = [
     squareItemId: 'PS55TCSXELUCJUAO6DKD3FP2',
     teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo', 'TM4GMI7mifHgMITv', 'TMoC0HYrTtI1d030'],
     imageUrl: './assets/images/gallery-4.jpg'
+  },
+  {
+    id: 'MENS-CUT',
+    name: "Men's Cut",
+    category: 'Cuts & Barbering',
+    duration: 30,
+    price: 28,
+    description: 'Clipper and shear cut with neck clean-up.',
+    squareCatalogObjectId: 'MENS-CUT',
+    squareItemId: null,
+    teamMemberIds: ['TMoC0HYrTtI1d030', 'QtBlDWuSwRfPAmfPAdMo'],
+    imageUrl: './assets/images/gallery-1.webp'
+  },
+  {
+    id: 'ROOT-RET',
+    name: 'Root Touch-Up',
+    category: 'Hair Color',
+    duration: 75,
+    price: 85,
+    description: 'Single-process color for new growth.',
+    squareCatalogObjectId: 'ROOT-RET',
+    squareItemId: null,
+    teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo'],
+    imageUrl: './assets/images/gallery-2.jpg'
+  },
+  {
+    id: 'BALAYAGE',
+    name: 'Balayage + Tone',
+    category: 'Hair Color',
+    duration: 150,
+    price: 185,
+    description: 'Lived-in lightening with gloss toner.',
+    squareCatalogObjectId: 'BALAYAGE',
+    squareItemId: null,
+    teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo'],
+    imageUrl: './assets/images/gallery-2.jpg'
+  },
+  {
+    id: 'GEL-MANI',
+    name: 'Gel Manicure',
+    category: 'Nails',
+    duration: 45,
+    price: 42,
+    description: 'Cuticle care, shaping, and gel polish.',
+    squareCatalogObjectId: 'GEL-MANI',
+    squareItemId: null,
+    teamMemberIds: ['TM4GMI7mifHgMITv'],
+    imageUrl: './assets/images/gallery-4.jpg'
+  },
+  {
+    id: 'GEL-PEDI',
+    name: 'Gel Pedicure',
+    category: 'Nails',
+    duration: 60,
+    price: 65,
+    description: 'Spa pedicure with gel polish finish.',
+    squareCatalogObjectId: 'GEL-PEDI',
+    squareItemId: null,
+    teamMemberIds: ['TM4GMI7mifHgMITv'],
+    imageUrl: './assets/images/gallery-4.jpg'
+  },
+  {
+    id: 'BROW-LAM',
+    name: 'Brow Lamination',
+    category: 'Brows & Lashes',
+    duration: 45,
+    price: 80,
+    description: 'Smooth, lifted brows with tint option.',
+    squareCatalogObjectId: 'BROW-LAM',
+    squareItemId: null,
+    teamMemberIds: ['TM4GMI7mifHgMITv'],
+    imageUrl: './assets/images/gallery-3.webp'
+  },
+  {
+    id: 'LASH-LIFT',
+    name: 'Lash Lift + Tint',
+    category: 'Brows & Lashes',
+    duration: 50,
+    price: 95,
+    description: 'Curl + deepen lashes for a mascara-free look.',
+    squareCatalogObjectId: 'LASH-LIFT',
+    squareItemId: null,
+    teamMemberIds: ['TM4GMI7mifHgMITv'],
+    imageUrl: './assets/images/gallery-3.webp'
+  },
+  {
+    id: 'BROW-WAX',
+    name: 'Brow Wax + Shape',
+    category: 'Waxing',
+    duration: 20,
+    price: 22,
+    description: 'Clean, sculpted brows with calming finish.',
+    squareCatalogObjectId: 'BROW-WAX',
+    squareItemId: null,
+    teamMemberIds: ['TM4GMI7mifHgMITv'],
+    imageUrl: './assets/images/gallery-4.jpg'
+  },
+  {
+    id: 'EXPRESS-FACIAL',
+    name: 'Express Facial',
+    category: 'Facials & Skin',
+    duration: 35,
+    price: 55,
+    description: 'Cleanse, exfoliate, mask, and moisturize.',
+    squareCatalogObjectId: 'EXPRESS-FACIAL',
+    squareItemId: null,
+    teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo'],
+    imageUrl: './assets/images/gallery-3.webp'
   }
 ];
 
