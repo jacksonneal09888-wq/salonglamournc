@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Marcela Burciaga | Salon Glamour NC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --black: #0f0c0a;
+        --charcoal: #1c1815;
+        --gold: #d4a55d;
+        --gold-strong: #b8832c;
+        --silver: #d7d7dc;
+        --offwhite: #f7f3ec;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle at 20% 20%, rgba(212, 165, 93, 0.16), transparent 40%),
+          radial-gradient(circle at 80% 10%, rgba(215, 215, 220, 0.18), transparent 45%),
+          linear-gradient(140deg, #181310, #0f0c0a 60%, #181310);
+        padding: 24px;
+        font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--offwhite);
+      }
+
+      .card {
+        width: 100%;
+        max-width: 420px;
+        background: linear-gradient(160deg, rgba(31, 24, 21, 0.95), rgba(15, 12, 10, 0.9));
+        border: 1px solid rgba(212, 165, 93, 0.28);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 18px 52px rgba(0, 0, 0, 0.4);
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero img {
+        width: 100%;
+        display: block;
+        max-height: 360px;
+        object-fit: cover;
+        object-position: center top;
+      }
+
+      .content {
+        padding: 18px 18px 20px;
+      }
+
+      .name {
+        font-family: "Playfair Display", "Times New Roman", serif;
+        font-size: 1.8rem;
+        letter-spacing: 0.3px;
+        margin-bottom: 4px;
+        color: var(--offwhite);
+      }
+
+      .title {
+        font-size: 0.98rem;
+        color: #d7d7dc;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .info-grid {
+        display: grid;
+        gap: 12px;
+        margin: 6px 0 12px;
+      }
+
+      .info-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.95rem;
+        color: var(--offwhite);
+      }
+
+      .info-row svg {
+        width: 18px;
+        height: 18px;
+        color: var(--gold);
+        flex-shrink: 0;
+      }
+
+      a {
+        color: var(--gold);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .buttons {
+        margin: 16px 0 8px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .btn {
+        display: inline-block;
+        text-align: center;
+        padding: 11px 12px;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        text-decoration: none;
+        border: 1px solid transparent;
+        transition: transform 120ms ease, box-shadow 120ms ease;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #d4a55d, #b8832c);
+        color: #0f0c0a;
+        box-shadow: 0 12px 32px rgba(212, 165, 93, 0.32);
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #2a2623, #1c1815);
+        color: var(--offwhite);
+        border: 1px solid rgba(215, 215, 220, 0.3);
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .save-contact {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #d7d7dc;
+        text-align: center;
+      }
+
+      .qr {
+        margin-top: 12px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .qr img {
+        width: 120px;
+        height: 120px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: #ffffff;
+        padding: 10px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      }
+
+      @media (max-width: 520px) {
+        .buttons {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="hero">
+        <img src="/assets/images/marcela.jpg" alt="Marcela Burciaga - Salon Glamour NC" />
+      </div>
+
+      <div class="content">
+        <div class="name">Marcela Burciaga</div>
+        <div class="title">Lash Artist · Salon Glamour NC</div>
+
+        <div class="info-grid">
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M6.5 4h3l1.3 4.3-2.1 1.2a10 10 0 0 0 5.8 5.8l1.2-2.1 4.3 1.3v3a2 2 0 0 1-2.2 2 17 17 0 0 1-15-15A2 2 0 0 1 6.5 4Z" />
+            </svg>
+            <a href="tel:+19107016100">(910) 701-6100</a>
+          </div>
+
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M4 4h16v16H4z" stroke-linejoin="round" />
+              <path d="M4 6.5l8 6 8-6.1" />
+            </svg>
+            <a href="mailto:salonglamournc@gmail.com">salonglamournc@gmail.com</a>
+          </div>
+
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M7 11c1.3 0 2.4-1 2.4-2.3S8.3 6.3 7 6.3 4.6 7.4 4.6 8.7 5.7 11 7 11Z" />
+              <path d="M17 11.9c1.1 0 2-.9 2-2 0-1.1-.9-2-2-2-1.2 0-2.2.8-2.5 2.2" />
+              <path d="M4 17.4c.6-2 1.7-3 3-3s2.4 1 3 3M13.5 17c.3-1.9 1.2-2.8 2.5-2.8 1.4 0 2.5 1 3 3" />
+              <path d="M7.5 14.4c.6-.8 1.4-1.2 2.5-1.2 1.4 0 2.7.8 3.6 2.5" />
+              <path d="M12.2 10.2c0-1.1.9-2 2-2" />
+            </svg>
+            <a href="https://www.instagram.com/glambymarcee" target="_blank">@glambymarcee</a>
+          </div>
+
+          <div class="info-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M5 12h14" />
+              <path d="M12 5v14" />
+            </svg>
+            <a href="https://salonglamournc.com/site/booking" target="_blank">Book at Salon Glamour NC</a>
+          </div>
+        </div>
+
+        <div class="buttons">
+          <a class="btn btn-primary" href="tel:+19107016100">Call</a>
+          <a class="btn btn-secondary" href="sms:+19107016100">Text</a>
+          <a class="btn btn-secondary" href="https://salonglamournc.com/site/booking" target="_blank">Book Now</a>
+          <a class="btn btn-secondary" href="https://www.instagram.com/glambymarcee" target="_blank">Instagram</a>
+          <a class="btn btn-secondary" href="/cards/marcela.vcf" download>Save Contact</a>
+        </div>
+
+        <div class="qr">
+          <img src="/assets/images/marcela-qr.png" alt="QR to booking" />
+        </div>
+
+        <div class="save-contact">
+          Prefer a tap? Save Marcela’s card and book online anytime.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
