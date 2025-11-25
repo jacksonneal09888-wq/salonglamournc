@@ -25,7 +25,7 @@ const fallbackServices = [
     description: 'Classic clipper or shear cut tailored to you.',
     squareCatalogObjectId: 'XPFNIJBYQKTSBRFTNDNKHNIP',
     squareItemId: '2QVFNRFTBKWJVQB7VE4WM37C',
-    teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo', 'TMoC0HYrTtI1d030'],
+    teamMemberIds: ['esperanza-garcia', 'cecilia-garcia-torres', 'daniela-fernandez'],
     imageUrl: './assets/images/gallery-1.webp'
   },
   {
@@ -37,7 +37,7 @@ const fallbackServices = [
     description: 'Fresh cut, blowout, and finish styling.',
     squareCatalogObjectId: 'GQGYDELSCAQUJEJUMV4GPMZA',
     squareItemId: 'M55RYLX4MP3PJYFIIMCIHRKY',
-    teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo', 'TMoC0HYrTtI1d030'],
+    teamMemberIds: ['cecilia-garcia-torres', 'daniela-fernandez', 'esperanza-garcia'],
     imageUrl: './assets/images/gallery-2.jpg'
   },
   {
@@ -49,7 +49,7 @@ const fallbackServices = [
     description: 'Complete lash extension set with custom styling.',
     squareCatalogObjectId: 'TUTAON3HQ7JVHHMLQD7WNRXU',
     squareItemId: 'R2STVBD2ZGZ25V7CW52H533T',
-    teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo', 'TM4GMI7mifHgMITv', 'TMoC0HYrTtI1d030'],
+    teamMemberIds: ['marcela-burciaga'],
     imageUrl: './assets/images/gallery-3.webp'
   },
   {
@@ -61,7 +61,7 @@ const fallbackServices = [
     description: 'Refresh and refill existing lash extensions.',
     squareCatalogObjectId: 'SN5UMKVSZFNJHNMF2OJEV5QP',
     squareItemId: 'PS55TCSXELUCJUAO6DKD3FP2',
-    teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo', 'TM4GMI7mifHgMITv', 'TMoC0HYrTtI1d030'],
+    teamMemberIds: ['marcela-burciaga'],
     imageUrl: './assets/images/gallery-4.jpg'
   },
   {
@@ -73,7 +73,7 @@ const fallbackServices = [
     description: 'Clipper and shear cut with neck clean-up.',
     squareCatalogObjectId: 'MENS-CUT',
     squareItemId: null,
-    teamMemberIds: ['TMoC0HYrTtI1d030', 'QtBlDWuSwRfPAmfPAdMo'],
+    teamMemberIds: ['esperanza-garcia', 'cecilia-garcia-torres'],
     imageUrl: './assets/images/gallery-1.webp'
   },
   {
@@ -85,7 +85,7 @@ const fallbackServices = [
     description: 'Single-process color for new growth.',
     squareCatalogObjectId: 'ROOT-RET',
     squareItemId: null,
-    teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo'],
+    teamMemberIds: ['daniela-fernandez', 'cecilia-garcia-torres'],
     imageUrl: './assets/images/gallery-2.jpg'
   },
   {
@@ -97,7 +97,7 @@ const fallbackServices = [
     description: 'Lived-in lightening with gloss toner.',
     squareCatalogObjectId: 'BALAYAGE',
     squareItemId: null,
-    teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo'],
+    teamMemberIds: ['daniela-fernandez', 'cecilia-garcia-torres'],
     imageUrl: './assets/images/gallery-2.jpg'
   },
   {
@@ -109,7 +109,7 @@ const fallbackServices = [
     description: 'Cuticle care, shaping, and gel polish.',
     squareCatalogObjectId: 'GEL-MANI',
     squareItemId: null,
-    teamMemberIds: ['TM4GMI7mifHgMITv'],
+    teamMemberIds: ['alexa-zamora', 'linda-fuentes'],
     imageUrl: './assets/images/gallery-4.jpg'
   },
   {
@@ -121,7 +121,7 @@ const fallbackServices = [
     description: 'Spa pedicure with gel polish finish.',
     squareCatalogObjectId: 'GEL-PEDI',
     squareItemId: null,
-    teamMemberIds: ['TM4GMI7mifHgMITv'],
+    teamMemberIds: ['alexa-zamora', 'linda-fuentes'],
     imageUrl: './assets/images/gallery-4.jpg'
   },
   {
@@ -133,7 +133,7 @@ const fallbackServices = [
     description: 'Smooth, lifted brows with tint option.',
     squareCatalogObjectId: 'BROW-LAM',
     squareItemId: null,
-    teamMemberIds: ['TM4GMI7mifHgMITv'],
+    teamMemberIds: ['marcela-burciaga'],
     imageUrl: './assets/images/gallery-3.webp'
   },
   {
@@ -145,7 +145,7 @@ const fallbackServices = [
     description: 'Curl + deepen lashes for a mascara-free look.',
     squareCatalogObjectId: 'LASH-LIFT',
     squareItemId: null,
-    teamMemberIds: ['TM4GMI7mifHgMITv'],
+    teamMemberIds: ['marcela-burciaga'],
     imageUrl: './assets/images/gallery-3.webp'
   },
   {
@@ -157,7 +157,7 @@ const fallbackServices = [
     description: 'Clean, sculpted brows with calming finish.',
     squareCatalogObjectId: 'BROW-WAX',
     squareItemId: null,
-    teamMemberIds: ['TM4GMI7mifHgMITv'],
+    teamMemberIds: ['linda-fuentes', 'marcela-burciaga'],
     imageUrl: './assets/images/gallery-4.jpg'
   },
   {
@@ -169,18 +169,18 @@ const fallbackServices = [
     description: 'Cleanse, exfoliate, mask, and moisturize.',
     squareCatalogObjectId: 'EXPRESS-FACIAL',
     squareItemId: null,
-    teamMemberIds: ['QtBlDWuSwRfPAmfPAdMo'],
+    teamMemberIds: ['linda-fuentes', 'daniela-fernandez'],
     imageUrl: './assets/images/gallery-3.webp'
   }
 ];
 
 const fallbackStylists = [
   {
-    id: 'alex-zamora',
-    name: 'Alex Zamora',
-    specialties: 'Cuts / Barbering',
+    id: 'alexa-zamora',
+    name: 'Alexa Zamora',
+    specialties: 'Nail Technician',
     calendarEmail: 'salonglamournc@gmail.com',
-    squareStaffId: 'alex-zamora'
+    squareStaffId: 'alexa-zamora'
   },
   {
     id: 'daniela-fernandez',
@@ -211,11 +211,11 @@ const fallbackStylists = [
     squareStaffId: 'marcela-burciaga'
   },
   {
-    id: 'cecilia-garcia',
-    name: 'Cecilia Garcia',
+    id: 'cecilia-garcia-torres',
+    name: 'Cecilia Garcia-Torres',
     specialties: 'Owner / Master Stylist',
     calendarEmail: 'salonglamournc@gmail.com',
-    squareStaffId: 'cecilia-garcia'
+    squareStaffId: 'cecilia-garcia-torres'
   }
 ];
 
@@ -258,7 +258,7 @@ const stylistOverrides = new Map([
     'esperanza-garcia',
     {
       name: 'Esperanza Garcia',
-      specialties: 'Cuts & Barbering',
+      specialties: 'Barber',
       calendarEmail: 'salonglamournc@gmail.com'
     }
   ],
@@ -266,7 +266,7 @@ const stylistOverrides = new Map([
     'marcela-burciaga',
     {
       name: 'Marcela Burciaga',
-      specialties: 'Brows & Lashes',
+      specialties: 'Lash Tech',
       calendarEmail: 'salonglamournc@gmail.com'
     }
   ]
