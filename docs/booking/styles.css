@@ -1,15 +1,16 @@
 :root {
   color-scheme: light;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --bg: #f5f5f7;
+  --bg: linear-gradient(180deg, #f7f1ec 0%, #fefbf8 60%, #f7f1ec 100%);
   --panel: #ffffff;
-  --border: #e4e4ea;
-  --text: #111018;
-  --muted: #5c5c66;
-  --accent: #a050ff;
-  --accent-strong: #7c2bff;
+  --panel-strong: #faf5ef;
+  --border: #e7dfd7;
+  --text: #1a1410;
+  --muted: #5c5148;
+  --accent: #e6a56b;
+  --accent-strong: #c07a3e;
   --success: #0f9d58;
-  --shadow: 0 20px 45px rgba(17, 16, 24, 0.08);
+  --shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
 }
 
 *,
@@ -31,11 +32,28 @@ body {
 }
 
 .booking-hero {
-  background: var(--panel);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f6dcc1, #f0b985);
   border-radius: 28px;
   padding: 32px;
   box-shadow: var(--shadow);
   margin-bottom: 32px;
+  color: #27170e;
+}
+
+.booking-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.24), transparent 46%),
+    radial-gradient(circle at 78% 12%, rgba(255, 173, 105, 0.2), transparent 42%);
+  opacity: 0.4;
+}
+
+.booking-hero > * {
+  position: relative;
 }
 
 .hero-eyebrow {
@@ -71,8 +89,8 @@ body {
   gap: 6px;
   padding: 10px 16px;
   border-radius: 999px;
-  background: #f0e9ff;
-  color: var(--accent-strong);
+  background: #ffe8d1;
+  color: #8a4d18;
   text-decoration: none;
   font-weight: 600;
 }
@@ -83,7 +101,7 @@ body {
   gap: 6px;
   padding: 6px 10px;
   border-radius: 999px;
-  background: #f7f5fb;
+  background: #fff1e3;
   border: 1px solid var(--border);
 }
 
@@ -173,7 +191,7 @@ body {
 
 .featured-card:hover {
   border-color: var(--accent-strong);
-  box-shadow: 0 0 0 3px rgba(160, 80, 255, 0.12);
+  box-shadow: 0 0 0 3px rgba(192, 122, 62, 0.16);
 }
 
 .featured-name {
@@ -195,7 +213,7 @@ body {
 .proof-card {
   border: 1px dashed var(--border);
   border-radius: 14px;
-  background: #fcfbff;
+  background: #fff7ed;
   padding: 10px 12px;
 }
 
@@ -208,8 +226,8 @@ body {
   display: inline-flex;
   padding: 4px 10px;
   border-radius: 999px;
-  background: #f0e9ff;
-  color: var(--accent-strong);
+  background: #ffe8d1;
+  color: #8a4d18;
   font-weight: 700;
   font-size: 0.85rem;
 }
@@ -328,7 +346,7 @@ body {
 }
 
 .service-card__badge {
-  background: rgba(160, 80, 255, 0.1);
+  background: rgba(192, 122, 62, 0.12);
   color: var(--accent-strong);
   font-size: 0.75rem;
   font-weight: 600;
@@ -378,7 +396,7 @@ body {
 
 .service-card:has(input:checked) {
   border-color: var(--accent-strong);
-  box-shadow: 0 0 0 3px rgba(160, 80, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(192, 122, 62, 0.16);
 }
 
 .icon-circle {
@@ -388,8 +406,8 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 25% 25%, #f5ecff, #e7ddff);
-  border: 1px solid #efe6ff;
+  background: radial-gradient(circle at 25% 25%, #fff6eb, #ffe8d3);
+  border: 1px solid #ffe1c6;
   box-shadow: inset 0 1px 0 #ffffff;
 }
 
@@ -542,20 +560,20 @@ body {
 
 .stylist-card:has(input:checked) {
   border-color: var(--accent-strong);
-  box-shadow: 0 0 0 3px rgba(160, 80, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(192, 122, 62, 0.16);
 }
 
 .avatar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f0e9ff, #ffe8fb);
+  background: linear-gradient(135deg, #fff0d5, #ffd8aa);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  color: var(--accent-strong);
-  border: 1px solid #e9defc;
+  color: #8a4d18;
+  border: 1px solid #ffd8aa;
 }
 
 .form-actions {
@@ -748,16 +766,16 @@ pre {
 .availability-pill {
   padding: 6px 10px;
   border-radius: 999px;
-  background: #e7f8ef;
-  color: #0a8c4f;
+  background: #fff1d6;
+  color: #9b4a00;
   font-weight: 700;
-  border: 1px solid #c5edd9;
+  border: 1px solid #ffe2a8;
 }
 
 .availability-pill.is-hot {
-  background: #fff4f0;
-  border-color: #ffd7cc;
-  color: #b33b00;
+  background: #ffe4d7;
+  border-color: #ffc7b0;
+  color: #b03a00;
 }
 
 .availability-pill.is-full {
