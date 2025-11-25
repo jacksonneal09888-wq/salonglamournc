@@ -623,9 +623,11 @@ function attachListeners() {
     logAction(`Rotation advanced past ${skipped.name}.`, 'success');
   });
 
-  selectors.demoBookingBtn.addEventListener('click', () => {
-    fillDemoBooking();
-  });
+  if (selectors.demoBookingBtn) {
+    selectors.demoBookingBtn.addEventListener('click', () => {
+      fillDemoBooking();
+    });
+  }
 
   selectors.bookingForm.addEventListener('submit', async event => {
     event.preventDefault();
