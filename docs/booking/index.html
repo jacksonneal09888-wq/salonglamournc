@@ -20,6 +20,11 @@
       </p>
       <div class="hero-actions">
         <a class="link-pill" href="../index.html">&larr; Back to public site</a>
+        <div class="language-toggle" id="languageToggle" role="group" aria-label="Language">
+          <button type="button" data-lang="en" class="is-active">EN</button>
+          <span aria-hidden="true">|</span>
+          <button type="button" data-lang="es">ES</button>
+        </div>
         <button class="ghost small" type="button" id="demoBooking">Drop in demo data</button>
       </div>
     </header>
@@ -28,23 +33,39 @@
       <section class="panel form-panel">
         <form id="bookingForm" autocomplete="off">
           <fieldset class="form-section">
-            <legend>1. Choose a service</legend>
+            <legend data-i18n="chooseService">1. Choose a service</legend>
+            <div class="service-header">
+              <label class="form-field compact">
+                <span data-i18n="searchLabel">Search services</span>
+                <input type="search" id="serviceSearch" placeholder="Search lash, wax, pedicure..." aria-label="Search services">
+              </label>
+              <div class="featured-services" id="featuredServices" aria-label="Featured services row"></div>
+            </div>
+            <div class="service-badges" id="popularBadges" aria-label="Popular service badges"></div>
+            <div class="social-proof" id="socialProof" aria-label="Social proof"></div>
             <div class="service-catalog">
               <div class="service-filters" id="serviceCategories" role="tablist" aria-label="Service categories"></div>
-              <div class="option-grid" id="serviceList" role="radiogroup" aria-label="Salon services"></div>
+              <div class="category-stack" id="serviceList" role="radiogroup" aria-label="Salon services"></div>
             </div>
-            <p class="hint">This will map directly to your Square Catalog service variation IDs.</p>
+            <div class="add-on-panel hidden" id="addOnPanel">
+              <div class="add-on-head">
+                <p class="add-on-title" data-i18n="addonsTitle">Optional add-ons</p>
+                <p class="add-on-sub" data-i18n="addonsHint">Boost tickets with quick extras.</p>
+              </div>
+              <div class="add-on-grid" id="addOnList"></div>
+            </div>
+            <p class="hint" data-i18n="serviceHint">This will map directly to your Square Catalog service variation IDs.</p>
           </fieldset>
 
           <fieldset class="form-section">
-            <legend>2. Pick a day + slot</legend>
+            <legend data-i18n="pickSlot">2. Pick a day + slot</legend>
             <div class="field-pair">
               <label class="form-field">
-                <span>Date</span>
+                <span data-i18n="dateLabel">Date</span>
                 <input type="date" id="dateInput" required>
               </label>
               <label class="form-field">
-                <span>Time slot</span>
+                <span data-i18n="timeLabel">Time slot</span>
                 <div class="input-with-button">
                   <select id="timeSelect" required>
                     <option value="">Load availability</option>
@@ -53,19 +74,20 @@
                 </div>
               </label>
             </div>
-            <p class="hint" id="availabilityStatus">Availability uses mocked data until you connect the Square Appointments API.</p>
+            <div class="availability-meter" id="availabilityMeter" aria-live="polite"></div>
+            <p class="hint" id="availabilityStatus" data-i18n="availabilityHint">Availability uses mocked data until you connect the Square Appointments API.</p>
           </fieldset>
 
           <fieldset class="form-section">
-            <legend>3. Stylist assignment</legend>
+            <legend data-i18n="stylistSection">3. Stylist assignment</legend>
             <div class="toggle-pills" role="radiogroup" aria-label="Stylist assignment mode">
               <label class="pill">
                 <input type="radio" name="stylistMode" value="roundRobin" checked>
-                <span>Auto (round robin)</span>
+                <span data-i18n="autoAssign">Auto-Assign (fastest option)</span>
               </label>
               <label class="pill">
                 <input type="radio" name="stylistMode" value="manual">
-                <span>Pick a stylist</span>
+                <span data-i18n="manualAssign">Pick a stylist</span>
               </label>
             </div>
             <div class="rotation-preview" id="rotationPreview">
@@ -79,27 +101,27 @@
           </fieldset>
 
           <fieldset class="form-section">
-            <legend>4. Guest details</legend>
+            <legend data-i18n="guestDetails">4. Guest details</legend>
             <div class="field-pair">
               <label class="form-field">
-                <span>Guest name</span>
+                <span data-i18n="guestName">Guest name</span>
                 <input type="text" id="clientName" placeholder="Full name" required>
               </label>
               <label class="form-field">
-                <span>Mobile number</span>
+                <span data-i18n="guestPhone">Mobile number</span>
                 <input type="tel" id="clientPhone" placeholder="(336) 555-1234" required>
               </label>
             </div>
             <label class="form-field">
-              <span>Email (for confirmations)</span>
+              <span data-i18n="guestEmail">Email (for confirmations)</span>
               <input type="email" id="clientEmail" placeholder="guest@email.com">
             </label>
           </fieldset>
 
           <fieldset class="form-section">
-            <legend>5. Notes</legend>
+            <legend data-i18n="notesTitle">5. Notes</legend>
             <label class="form-field">
-              <span>Color formulas, inspo links, or reminders</span>
+              <span data-i18n="notesLabel">Color formulas, inspo links, or reminders</span>
               <textarea id="notesInput" rows="3" placeholder="Optional"></textarea>
             </label>
           </fieldset>
