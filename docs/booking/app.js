@@ -1231,7 +1231,9 @@ function updateSummary() {
   selectors.summaryFields.notes.textContent = state.notes || 'Optional';
 
   if (!summaryInitialized) {
-    selectors.activityLog.innerHTML = '';
+    if (selectors.activityLog) {
+      selectors.activityLog.innerHTML = '';
+    }
     summaryInitialized = true;
   }
 }
@@ -1269,8 +1271,12 @@ async function handleSubmit() {
     state.date
   )} at ${formatTime(state.time)}`;
 
-  selectors.squarePayload.textContent = JSON.stringify(squarePayload, null, 2);
-  selectors.googlePayload.textContent = JSON.stringify(googlePayload, null, 2);
+  if (selectors.squarePayload) {
+    selectors.squarePayload.textContent = JSON.stringify(squarePayload, null, 2);
+  }
+  if (selectors.googlePayload) {
+    selectors.googlePayload.textContent = JSON.stringify(googlePayload, null, 2);
+  }
   updateRotationPreview();
   updateSummary();
 
@@ -1423,6 +1429,7 @@ function updateIntegrationStatus(key, text, stateClass = 'idle') {
 }
 
 function logAction(message, tone = 'info') {
+  if (!selectors.activityLog) return;
   if (!summaryInitialized) {
     selectors.activityLog.innerHTML = '';
     summaryInitialized = true;
