@@ -163,10 +163,8 @@
 
   <script>
     (function configureBooking() {
-      const { hostname, port, origin } = window.location;
-      const shouldUseLocalApi =
-        (hostname === '127.0.0.1' || hostname === 'localhost') && port !== '8788';
-      const apiBase = shouldUseLocalApi ? 'http://localhost:8788' : '';
+      const apiBase = 'https://salon-worker.jacksonneal09888.workers.dev';
+      const { origin } = window.location;
       const makeEndpoint = path => `${apiBase}${path}`;
 
       window.__BOOKING_CONFIG = {
