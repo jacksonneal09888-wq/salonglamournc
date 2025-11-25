@@ -573,14 +573,6 @@ function renderServiceCards() {
     price.textContent = formatCurrency(service.price);
 
     label.appendChild(input);
-    if (service.imageUrl) {
-      const image = document.createElement('img');
-      image.className = 'service-card__image';
-      image.src = service.imageUrl;
-      image.alt = `${service.name} service`;
-      image.loading = 'lazy';
-      label.appendChild(image);
-    }
     label.appendChild(badge);
     label.appendChild(name);
     label.appendChild(meta);
