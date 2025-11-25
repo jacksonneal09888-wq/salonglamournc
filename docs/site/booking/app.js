@@ -308,7 +308,7 @@ function normalizeServices(rawList) {
       const normalized = {
         id,
         name,
-        category: raw.category ?? raw.categoryName ?? categorizeService(name),
+        category: normalizeCategory(raw.category ?? raw.categoryName, name),
         duration,
         price,
         description: raw.description ?? '',
@@ -334,6 +334,16 @@ function normalizeServices(rawList) {
       return true;
     })
     .sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name));
+}
+
+function normalizeCategory(category, name) {
+  if (category) {
+    const lc = category.toLowerCase();
+    if (lc !== 'salon service' && lc !== 'uncategorized') {
+      return category;
+    }
+  }
+  return categorizeService(name);
 }
 
 function categorizeService(name) {
