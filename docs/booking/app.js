@@ -195,6 +195,20 @@ const fallbackStylists = [
     specialties: 'Lash Tech',
     calendarEmail: 'marcelaburciaga@icloud.com',
     squareStaffId: 'TM4GMI7mifHgMITv'
+  },
+  {
+    id: 'NAIL-TECH-01',
+    name: 'Lina Romero',
+    specialties: 'Nails / Gel / Pedicure',
+    calendarEmail: 'salonglamournc@gmail.com',
+    squareStaffId: 'NAIL-TECH-01'
+  },
+  {
+    id: 'ESTHETICIAN-01',
+    name: 'Kayla Nguyen',
+    specialties: 'Facials / Waxing / Brows',
+    calendarEmail: 'salonglamournc@gmail.com',
+    squareStaffId: 'ESTHETICIAN-01'
   }
 ];
 
