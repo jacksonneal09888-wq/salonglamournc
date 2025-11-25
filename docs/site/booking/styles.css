@@ -117,6 +117,32 @@ body {
   margin-top: 10px;
 }
 
+.filter-pills .pill {
+  border: 1px solid #e5dfd8;
+  background: #f9f6f3;
+  color: #302720;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-pills .pill.active {
+  background: linear-gradient(135deg, #f3caa1, #e6a56b);
+  color: #1f150d;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.pill-count {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  font-size: 0.8rem;
+}
+
 .service-card {
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -126,6 +152,13 @@ body {
   gap: 6px;
   cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.service-card.active,
+.service-card input:checked + * {
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  background: #fffaf6;
 }
 
 .service-card input {

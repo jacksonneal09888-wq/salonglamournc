@@ -496,11 +496,20 @@ function attachListeners() {
 
 function renderServiceFilters() {
   const list = services.length ? services : fallbackServices;
-  const categories = Array.from(new Set(['All', ...list.map(svc => svc.category || 'Other')]));
-  const sorted = ['All', ...categoryOrder.filter(cat => categories.includes(cat)), ...categories.filter(cat => !categoryOrder.includes(cat) && cat !== 'All')];
+  const counts = list.reduce((acc, svc) => {
+    const cat = svc.category || 'Other';
+    acc[cat] = (acc[cat] || 0) + 1;
+    return acc;
+  }, {});
+  const categories = Object.keys(counts);
+  const sorted = [
+    'All',
+    ...categoryOrder.filter(cat => counts[cat]),
+    ...categories.filter(cat => cat !== 'All' && !categoryOrder.includes(cat) && cat !== 'Salon Service')
+  ];
   selectors.serviceFilters.innerHTML = sorted
     .map(cat => {
-      const count = cat === 'All' ? list.length : list.filter(svc => (svc.category || 'Other') === cat).length;
+      const count = cat === 'All' ? list.length : counts[cat] || 0;
       return `<button type="button" data-category="${cat}" class="pill ${categoryFilter === cat ? 'active' : ''}">${cat} <span class="pill-count">${count}</span></button>`;
     })
     .join('');
@@ -521,7 +530,16 @@ function renderServiceCards() {
       ? services
       : services.filter(svc => (svc.category || 'Other') === categoryFilter);
 
-  filtered.forEach((service, index) => {
+  const ranked = filtered.sort((a, b) => {
+    const rank = (cat) => {
+      const idx = categoryOrder.indexOf(cat);
+      return idx === -1 ? categoryOrder.length + 1 : idx;
+    };
+    if (rank(a.category) !== rank(b.category)) return rank(a.category) - rank(b.category);
+    return a.name.localeCompare(b.name);
+  });
+
+  ranked.forEach((service, index) => {
     const label = document.createElement('label');
     label.className = 'service-card';
     const input = document.createElement('input');
