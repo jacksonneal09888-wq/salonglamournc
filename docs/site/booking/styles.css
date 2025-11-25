@@ -615,6 +615,23 @@ body {
   cursor: not-allowed;
 }
 
+.test-results {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.test-row.success {
+  color: #0a8c4f;
+}
+
+.test-row.error {
+  color: #ab1f2b;
+}
+
 .summary-card dl {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));

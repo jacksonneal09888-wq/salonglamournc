@@ -359,6 +359,8 @@ const selectors = {
   clientEmail: document.getElementById('clientEmail'),
   notesInput: document.getElementById('notesInput'),
   demoBookingBtn: document.getElementById('demoBooking'),
+  runTestsBtn: document.getElementById('runTests'),
+  testResults: document.getElementById('testResults'),
   submitButton: document.querySelector('[data-submit-button]'),
   summaryFields: {
     service: document.querySelector('[data-summary="service"]'),
@@ -749,6 +751,8 @@ function attachListeners() {
       fillDemoBooking();
     });
   }
+
+  selectors.runTestsBtn?.addEventListener('click', () => runTestBookings());
 
   selectors.bookingForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -1566,6 +1570,18 @@ function logAction(message, tone = 'info') {
   }
 }
 
+function renderTestResults(items = []) {
+  if (!selectors.testResults) return;
+  selectors.testResults.innerHTML = '';
+  if (!items.length) return;
+  items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = `test-row ${item.status || ''}`;
+    row.textContent = item.message;
+    selectors.testResults.appendChild(row);
+  });
+}
+
 function setFormBusy(isBusy) {
   const button = selectors.submitButton;
   if (!button) return;
@@ -1595,6 +1611,38 @@ function queueIntegration({ key, url, payload, pendingText, successText, onSucce
       logAction(`${label} error: ${error.message || 'Request failed'}`, 'error');
       throw error;
     });
+}
+
+function runTestBookings() {
+  const results = [];
+  if (!stylists.length) {
+    renderTestResults([{ message: 'No stylists available for testing.', status: 'error' }]);
+    return;
+  }
+  const service = services[0];
+  if (!service) {
+    renderTestResults([{ message: 'No services available for testing.', status: 'error' }]);
+    return;
+  }
+  const testDate = new Date();
+  const iso = testDate.toISOString().split('T')[0];
+  const start = combineDateTime(iso, '10:00');
+  const end = new Date(start.getTime() + service.duration * 60000);
+  results.push({
+    message: `Test run using ${service.name} on ${formatHumanDate(iso)} at 10:00 (not sent).`,
+    status: 'info'
+  });
+  stylists.forEach(stylist => {
+    const payload = buildSquarePayload(service, stylist, start, end);
+    payload.metadata.test_run = true;
+    payload.customer_note = [payload.customer_note, 'TEST APPOINTMENT - IGNORE'].filter(Boolean).join(' | ');
+    results.push({
+      message: `Prepared test payload for ${stylist.name} (${stylist.specialties})`,
+      status: 'success'
+    });
+    console.log('Test payload (not sent):', stylist.name, payload);
+  });
+  renderTestResults(results);
 }
 
 async function sendJson(url, payload) {
