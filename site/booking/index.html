@@ -3,188 +3,53 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Salon Glamour NC | Booking Sandbox</title>
-  <meta name="description" content="Internal booking sandbox for Salon Glamour NC that keeps Square for payments while testing a custom UI.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+  <title>Salon Glamour NC | Book Online</title>
+  <meta http-equiv="refresh" content="0; url=https://book.squareup.com/appointments/xzwxbrdzvqp39y/location/RP38RJ3DZ5D4R/services?gei=Ao4naaPAN-alqtsPuJqwqAQ&hl=en-US&rwg_token=ACgRB3d86eiUbvGxCiPzNrUB4mHiL1iAGDH1Wx3TfTObNbvqj1_SgijPtZ3B7c3Bwu6Uy2V4DPxVaGUXnuYrEcJbmbzr_xsuiw%3D%3D">
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: #f7f1ec;
+      color: #1a1410;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .card {
+      max-width: 680px;
+      width: 100%;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+      padding: 28px;
+      text-align: center;
+      border: 1px solid #e7dfd7;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+    p { margin: 6px 0; line-height: 1.5; color: #5c5148; }
+    .cta {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #e6a56b, #c07a3e);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+  </style>
 </head>
 <body>
-  <div class="booking-shell">
-    <header class="booking-hero">
-      <p class="hero-eyebrow">Salon Glamour NC &middot; Asheboro</p>
-      <h1>Book your visit</h1>
-      <p>
-        Choose your service, pick a time, and we’ll confirm your appointment.
-      </p>
-      <div class="hero-actions">
-        <a class="link-pill" href="../index.html">&larr; Back to public site</a>
-        <div class="language-toggle" id="languageToggle" role="group" aria-label="Language">
-          <button type="button" data-lang="en" class="is-active">EN</button>
-          <span aria-hidden="true">|</span>
-          <button type="button" data-lang="es">ES</button>
-        </div>
-      </div>
-    </header>
-
-    <main class="booking-grid">
-      <section class="panel form-panel">
-        <form id="bookingForm" autocomplete="off">
-          <fieldset class="form-section">
-            <legend data-i18n="chooseService">1. Choose a service</legend>
-            <div class="service-header">
-              <label class="form-field compact">
-                <span data-i18n="searchLabel">Search services</span>
-                <input type="search" id="serviceSearch" placeholder="Search lash, wax, pedicure..." aria-label="Search services">
-              </label>
-              <div class="featured-services" id="featuredServices" aria-label="Featured services row"></div>
-            </div>
-            <div class="service-badges" id="popularBadges" aria-label="Popular service badges"></div>
-            <div class="social-proof" id="socialProof" aria-label="Social proof"></div>
-            <div class="service-catalog">
-              <div class="service-filters" id="serviceCategories" role="tablist" aria-label="Service categories"></div>
-              <div class="category-stack" id="serviceList" role="radiogroup" aria-label="Salon services"></div>
-            </div>
-            <div class="add-on-panel hidden" id="addOnPanel">
-              <div class="add-on-head">
-                <p class="add-on-title" data-i18n="addonsTitle">Optional add-ons</p>
-                <p class="add-on-sub" data-i18n="addonsHint">Boost tickets with quick extras.</p>
-              </div>
-              <div class="add-on-grid" id="addOnList"></div>
-            </div>
-            <p class="hint" data-i18n="serviceHint">This will map directly to your Square Catalog service variation IDs.</p>
-          </fieldset>
-
-          <fieldset class="form-section">
-            <legend data-i18n="pickSlot">2. Pick a day + slot</legend>
-            <div class="field-pair">
-              <label class="form-field">
-                <span data-i18n="dateLabel">Date</span>
-                <input type="date" id="dateInput" required>
-              </label>
-              <label class="form-field">
-                <span data-i18n="timeLabel">Time slot</span>
-                <div class="input-with-button">
-                  <select id="timeSelect" required>
-                    <option value="">Load availability</option>
-                  </select>
-                  <button type="button" class="ghost small" id="refreshSlots">Refresh</button>
-                </div>
-              </label>
-            </div>
-            <div class="availability-meter" id="availabilityMeter" aria-live="polite"></div>
-            <p class="hint" id="availabilityStatus" data-i18n="availabilityHint">Availability uses mocked data until you connect the Square Appointments API.</p>
-          </fieldset>
-
-          <fieldset class="form-section">
-            <legend data-i18n="stylistSection">3. Stylist assignment</legend>
-            <div class="toggle-pills" role="radiogroup" aria-label="Stylist assignment mode">
-              <label class="pill">
-                <input type="radio" name="stylistMode" value="roundRobin" checked>
-                <span data-i18n="autoAssign">Auto-Assign (fastest option)</span>
-              </label>
-              <label class="pill">
-                <input type="radio" name="stylistMode" value="manual">
-                <span data-i18n="manualAssign">Pick a stylist</span>
-              </label>
-            </div>
-            <div class="rotation-preview" id="rotationPreview">
-              <div>
-                <p class="rotation-label">Next up in rotation</p>
-                <p class="rotation-name" data-next-stylist>Loading stylists...</p>
-              </div>
-              <button type="button" class="ghost small" id="nextStylistBtn">Advance rotation</button>
-            </div>
-            <div class="option-stack hidden" id="stylistList" role="radiogroup" aria-label="Choose a stylist"></div>
-          </fieldset>
-
-          <fieldset class="form-section">
-            <legend data-i18n="guestDetails">4. Guest details</legend>
-            <div class="field-pair">
-              <label class="form-field">
-                <span data-i18n="guestName">Guest name</span>
-                <input type="text" id="clientName" placeholder="Full name" required>
-              </label>
-              <label class="form-field">
-                <span data-i18n="guestPhone">Mobile number</span>
-                <input type="tel" id="clientPhone" placeholder="(336) 555-1234" required>
-              </label>
-            </div>
-            <label class="form-field">
-              <span data-i18n="guestEmail">Email (for confirmations)</span>
-              <input type="email" id="clientEmail" placeholder="guest@email.com">
-            </label>
-          </fieldset>
-
-          <fieldset class="form-section">
-            <legend data-i18n="notesTitle">5. Notes</legend>
-            <label class="form-field">
-              <span data-i18n="notesLabel">Color formulas, inspo links, or reminders</span>
-              <textarea id="notesInput" rows="3" placeholder="Optional"></textarea>
-            </label>
-          </fieldset>
-
-          <div class="form-actions">
-            <button class="primary" type="submit" data-submit-button>Complete booking</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="panel summary-panel">
-        <div class="summary-card">
-          <h2>Booking preview</h2>
-          <dl>
-            <div>
-              <dt>Service</dt>
-              <dd data-summary="service">Select a service</dd>
-            </div>
-            <div>
-              <dt>When</dt>
-              <dd data-summary="time">Choose a date + slot</dd>
-            </div>
-            <div>
-              <dt>Stylist strategy</dt>
-              <dd data-summary="stylist">Round robin pending roster</dd>
-            </div>
-            <div>
-              <dt>Guest</dt>
-              <dd data-summary="client">Add guest details</dd>
-            </div>
-            <div>
-              <dt>Notes</dt>
-              <dd data-summary="notes">Optional</dd>
-            </div>
-          </dl>
-        </div>
-      </section>
-    </main>
+  <div class="card">
+    <h1>Book with Salon Glamour NC</h1>
+    <p>You’re being redirected to our Square booking hub.</p>
+    <p>If you’re not redirected automatically, tap below.</p>
+    <a class="cta" href="https://book.squareup.com/appointments/xzwxbrdzvqp39y/location/RP38RJ3DZ5D4R/services?gei=Ao4naaPAN-alqtsPuJqwqAQ&hl=en-US&rwg_token=ACgRB3d86eiUbvGxCiPzNrUB4mHiL1iAGDH1Wx3TfTObNbvqj1_SgijPtZ3B7c3Bwu6Uy2V4DPxVaGUXnuYrEcJbmbzr_xsuiw%3D%3D">Open Square Booking</a>
+    <p style="margin-top:12px;"><a href="../index.html">Back to salonglamournc.com</a></p>
   </div>
-
-  <script>
-    (function configureBooking() {
-      // Force all API calls to the Worker (avoids GitHub Pages 404/405).
-      const apiBase = 'https://salon-worker.jacksonneal09888.workers.dev';
-      const { origin } = window.location;
-      const makeEndpoint = path => `${apiBase}${path}`;
-
-      window.__BOOKING_CONFIG = {
-        squareBookingEndpoint: makeEndpoint('/api/bookings'),
-        squareAvailabilityEndpoint: makeEndpoint('/api/availability'),
-        googleCalendarEndpoint: '',
-        servicesEndpoint: makeEndpoint('/api/services'),
-        teamEndpoint: makeEndpoint('/api/team'),
-        timeZone: 'America/New_York',
-        embedUrl: origin === 'null' ? '' : `${origin}/booking`,
-        useMockAvailability: false,
-        useMockCatalog: false
-      };
-    })();
-  </script>
-  <noscript>
-    <p class="noscript-callout">Enable JavaScript to use the booking sandbox.</p>
-  </noscript>
-
-  <script type="module" src="./app.js"></script>
 </body>
 </html>
