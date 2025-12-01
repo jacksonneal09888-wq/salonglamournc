@@ -37,9 +37,13 @@
   function applyLink(anchor, href, options = {}) {
     if (!anchor) return;
     anchor.setAttribute('href', href);
-    if (options.newTab) {
+    const newTab = Boolean(options.newTab);
+    if (newTab) {
       anchor.setAttribute('target', '_blank');
       anchor.setAttribute('rel', 'noopener');
+    } else {
+      anchor.removeAttribute('target');
+      anchor.removeAttribute('rel');
     }
   }
 
