@@ -995,6 +995,8 @@ async function createSquareBooking(payload) {
     ...rest,
     location_id: SQUARE_LOCATION_ID
   };
+  // Square bookings do not accept metadata; drop it if present
+  delete enforcedBooking.metadata;
   if (!enforcedBooking.start_at) {
     throw new Error('start_at is required to create a booking.');
   }
