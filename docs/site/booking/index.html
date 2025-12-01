@@ -147,18 +147,14 @@
 
   <script>
     (function configureBooking() {
-      const apiBase = 'https://salon-worker.jacksonneal09888.workers.dev';
-      const { origin } = window.location;
-      const makeEndpoint = path => `${apiBase}${path}`;
-
       window.__BOOKING_CONFIG = {
-        squareBookingEndpoint: makeEndpoint('/api/bookings'),
-        squareAvailabilityEndpoint: makeEndpoint('/api/availability'),
+        squareBookingEndpoint: 'https://salonglamournc.onrender.com/api/bookings',
+        squareAvailabilityEndpoint: 'https://salonglamournc.onrender.com/api/availability',
         googleCalendarEndpoint: '',
-        servicesEndpoint: makeEndpoint('/api/services'),
-        teamEndpoint: makeEndpoint('/api/team'),
+        servicesEndpoint: 'https://salonglamournc.onrender.com/api/services',
+        teamEndpoint: 'https://salonglamournc.onrender.com/api/team',
         timeZone: 'America/New_York',
-        embedUrl: origin === 'null' ? '' : `${origin}/booking`,
+        embedUrl: 'https://salonglamournc.com/booking',
         useMockAvailability: false,
         useMockCatalog: false
       };
