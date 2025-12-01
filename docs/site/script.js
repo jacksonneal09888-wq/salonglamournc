@@ -1,6 +1,5 @@
 (() => {
-  const squareFallback =
-    'https://book.squareup.com/appointments/xzwxbrdzvqp39y/location/RP38RJ3DZ5D4R/services?gei=Ao4naaPAN-alqtsPuJqwqAQ&hl=en-US&rwg_token=ACgRB3d86eiUbvGxCiPzNrUB4mHiL1iAGDH1Wx3TfTObNbvqj1_SgijPtZ3B7c3Bwu6Uy2V4DPxVaGUXnuYrEcJbmbzr_xsuiw%3D%3D';
+  const squareFallback = './booking/';
   const squareUrl = typeof window !== 'undefined' && window.SQUARE_URL ? window.SQUARE_URL : squareFallback;
   const phoneNumber = '+13365219528';
   const phoneDisplay = '(336) 521-9528';
@@ -38,15 +37,19 @@
   function applyLink(anchor, href, options = {}) {
     if (!anchor) return;
     anchor.setAttribute('href', href);
-    if (options.newTab) {
+    const newTab = Boolean(options.newTab);
+    if (newTab) {
       anchor.setAttribute('target', '_blank');
       anchor.setAttribute('rel', 'noopener');
+    } else {
+      anchor.removeAttribute('target');
+      anchor.removeAttribute('rel');
     }
   }
 
   // Square booking links
   document.querySelectorAll('[data-square]').forEach(anchor => {
-    applyLink(anchor, squareUrl, { newTab: true });
+    applyLink(anchor, squareUrl);
   });
 
   // Phone links

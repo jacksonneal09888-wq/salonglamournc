@@ -7,10 +7,11 @@ site/
 |-- booking/
 |   |-- index.html   <- UI markup + helper copy
 |   |-- styles.css   <- Lightweight utility-inspired tokens
-|   \-- app.js       <- Service roster, round-robin logic, payload builders
+|   \-- app.js       <- Service roster and payload builders
 ```
 
 Load the page at `/booking/` to preview the experience. Everything runs client-side until you point the config at the new `/api/*` proxy.
+Guests now pick their stylist directly (round robin is disabled), and availability queries filter to that choice.
 
 ## Runtime configuration
 
@@ -19,12 +20,15 @@ Load the page at `/booking/` to preview the experience. Everything runs client-s
 ```html
 <script>
   window.__BOOKING_CONFIG = {
-    squareBookingEndpoint: '/api/bookings',
-    squareAvailabilityEndpoint: '/api/availability',
-    googleCalendarEndpoint: '/api/google/calendar',
+    squareBookingEndpoint: 'https://salon-worker.jacksonneal09888.workers.dev/api/bookings',
+    squareAvailabilityEndpoint: 'https://salon-worker.jacksonneal09888.workers.dev/api/availability',
+    servicesEndpoint: 'https://salon-worker.jacksonneal09888.workers.dev/api/services',
+    teamEndpoint: 'https://salon-worker.jacksonneal09888.workers.dev/api/team',
+    googleCalendarEndpoint: '',
     timeZone: 'America/New_York',
     embedUrl: 'https://salonglamournc.com/booking',
-    useMockAvailability: true
+    useMockAvailability: false,
+    useMockCatalog: false
   };
 </script>
 <script type="module" src="./app.js"></script>
