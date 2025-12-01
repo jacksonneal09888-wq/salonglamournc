@@ -223,7 +223,6 @@ let services = [];
 let stylists = [];
 let servicesById = new Map();
 let stylistsById = new Map();
-let roundRobin = createRoundRobin([]);
 let summaryInitialized = false;
 let currentEligibleStylists = [];
 
@@ -301,9 +300,8 @@ const translations = {
     dateLabel: 'Date',
     timeLabel: 'Time slot',
     availabilityHint: 'Availability uses mocked data until you connect the Square Appointments API.',
-    stylistSection: '3. Stylist assignment',
-    autoAssign: 'Auto-Assign (fastest option)',
-    manualAssign: 'Pick a stylist',
+    stylistSection: '3. Choose your stylist',
+    stylistHint: 'Pick who you want to see. Availability adjusts to their calendar.',
     guestDetails: '4. Guest details',
     guestName: 'Guest name',
     guestPhone: 'Mobile number',
@@ -321,9 +319,8 @@ const translations = {
     dateLabel: 'Fecha',
     timeLabel: 'Horario',
     availabilityHint: 'Las horas usan datos de prueba hasta conectar Square Appointments.',
-    stylistSection: '3. Asignación de estilista',
-    autoAssign: 'Asignación automática (más rápido)',
-    manualAssign: 'Elegir estilista',
+    stylistSection: '3. Elige tu estilista',
+    stylistHint: 'Selecciona con quién quieres agendar. Las horas siguen su calendario.',
     guestDetails: '4. Datos del cliente',
     guestName: 'Nombre',
     guestPhone: 'Celular',
@@ -347,9 +344,6 @@ const selectors = {
   addOnList: document.getElementById('addOnList'),
   languageToggle: document.getElementById('languageToggle'),
   stylistList: document.getElementById('stylistList'),
-  rotationPreview: document.getElementById('rotationPreview'),
-  nextStylistLabel: document.querySelector('[data-next-stylist]'),
-  nextStylistBtn: document.getElementById('nextStylistBtn'),
   dateInput: document.getElementById('dateInput'),
   timeSelect: document.getElementById('timeSelect'),
   refreshSlotsBtn: document.getElementById('refreshSlots'),
@@ -388,7 +382,6 @@ const state = {
   searchTerm: '',
   date: '',
   time: '',
-  stylistMode: 'roundRobin',
   stylistId: null,
   language: 'en',
   selectedAddOns: new Set(),
@@ -420,7 +413,6 @@ async function bootstrap() {
   updateEligibleStylists();
   setDefaultDate();
   attachListeners();
-  updateRotationPreview();
   updateIntegrationStatus(
     'square',
     config.squareBookingEndpoint ? `POST ${config.squareBookingEndpoint}` : 'Not configured',
@@ -487,7 +479,6 @@ function finalizeCatalogState() {
   servicesById = new Map(services.map(service => [service.id, service]));
   stylistsById = new Map(stylists.map(stylist => [stylist.id, stylist]));
   currentEligibleStylists = stylists;
-  roundRobin = createRoundRobin(currentEligibleStylists);
   if (!state.serviceId || !servicesById.has(state.serviceId)) {
     state.serviceId = services[0]?.id ?? null;
   }
@@ -700,16 +691,6 @@ function attachListeners() {
     loadAvailability(true);
   });
 
-  document.querySelectorAll('input[name="stylistMode"]').forEach(radio => {
-    radio.addEventListener('change', event => {
-      state.stylistMode = event.target.value;
-      const manual = state.stylistMode === 'manual';
-      selectors.stylistList.classList.toggle('hidden', !manual);
-      selectors.rotationPreview.classList.toggle('hidden', manual);
-      updateSummary();
-    });
-  });
-
   selectors.stylistList.addEventListener('change', event => {
     if (event.target.name === 'stylistId') {
       state.stylistId = event.target.value;
@@ -735,17 +716,6 @@ function attachListeners() {
   selectors.notesInput.addEventListener('input', () => {
     state.notes = selectors.notesInput.value.trim();
     updateSummary();
-  });
-
-  selectors.nextStylistBtn.addEventListener('click', () => {
-    const skipped = roundRobin?.skip?.();
-    if (!skipped) {
-      logAction('No stylists available for rotation yet.', 'warning');
-      return;
-    }
-    updateRotationPreview();
-    updateSummary();
-    logAction(`Rotation advanced past ${skipped.name}.`, 'success');
   });
 
   if (selectors.demoBookingBtn) {
@@ -955,20 +925,19 @@ function createCategoryButton(label, value, active) {
 }
 
 function renderStylists() {
-  const service = servicesById.get(state.serviceId);
-  const eligible = getEligibleStylists(service);
-  currentEligibleStylists = eligible;
-  roundRobin = createRoundRobin(currentEligibleStylists);
-  if (state.stylistMode === 'manual' && state.stylistId && !currentEligibleStylists.find(s => s.id === state.stylistId)) {
-    state.stylistId = currentEligibleStylists[0]?.id ?? null;
-  }
+  const eligible = currentEligibleStylists;
   selectors.stylistList.innerHTML = '';
   if (!eligible.length) {
+    state.stylistId = null;
     const empty = document.createElement('p');
     empty.className = 'hint';
     empty.textContent = 'No team members available. Update Square to assign staff.';
     selectors.stylistList.appendChild(empty);
     return;
+  }
+
+  if (!state.stylistId || !eligible.find(s => s.id === state.stylistId || s.squareStaffId === state.stylistId)) {
+    state.stylistId = eligible[0]?.id ?? null;
   }
 
   eligible.forEach((stylist, index) => {
@@ -1002,7 +971,7 @@ function renderStylists() {
         badge.className = 'stylist-tag';
         badge.textContent = tag;
         tags.appendChild(badge);
-      });
+    });
     metaWrapper.appendChild(name);
     metaWrapper.appendChild(small);
     metaWrapper.appendChild(contact);
@@ -1017,12 +986,10 @@ function renderStylists() {
 function updateEligibleStylists(serviceOverride) {
   const service = serviceOverride ?? servicesById.get(state.serviceId);
   currentEligibleStylists = getEligibleStylists(service);
-  roundRobin = createRoundRobin(currentEligibleStylists);
-  if (state.stylistMode === 'manual' && state.stylistId && !currentEligibleStylists.find(s => s.id === state.stylistId)) {
+  if (state.stylistId && !currentEligibleStylists.find(s => s.id === state.stylistId)) {
     state.stylistId = currentEligibleStylists[0]?.id ?? null;
   }
   renderStylists();
-  updateRotationPreview();
   updateSummary();
 }
 
@@ -1266,10 +1233,12 @@ async function loadAvailability(forceMock = false) {
   if (!state.serviceId || !state.date) return;
   const service = servicesById.get(state.serviceId);
   if (!service) return;
-  const roster =
-    state.stylistMode === 'manual' && state.stylistId
-      ? stylists.filter(s => s.id === state.stylistId || s.squareStaffId === state.stylistId)
-      : stylists;
+  const roster = state.stylistId
+    ? currentEligibleStylists.filter(
+        s => s.id === state.stylistId || s.squareStaffId === state.stylistId
+      )
+    : currentEligibleStylists;
+  const stylistsForAvailability = roster.length ? roster : currentEligibleStylists.length ? currentEligibleStylists : stylists;
   setAvailabilityStatus('Fetching availability...');
   selectors.timeSelect.disabled = true;
   selectors.timeSelect.innerHTML = '<option>Loading...</option>';
@@ -1277,7 +1246,7 @@ async function loadAvailability(forceMock = false) {
     const availability = await SquareAvailability.fetch({
       service,
       date: state.date,
-      stylists: roster,
+      stylists: stylistsForAvailability,
       forceMock: forceMock || config.useMockAvailability
     });
     const slots = availability?.slots || [];
@@ -1297,7 +1266,7 @@ async function loadAvailability(forceMock = false) {
     const mock = await SquareAvailability.fetch({
       service,
       date: state.date,
-      stylists,
+      stylists: stylistsForAvailability.length ? stylistsForAvailability : stylists,
       forceMock: true
     });
     const slots = mock?.slots || [];
@@ -1310,21 +1279,16 @@ async function loadAvailability(forceMock = false) {
 
 function populateSlots(slots) {
   selectors.timeSelect.innerHTML = '';
-  if (!slots.length) {
+  const openSlots = (slots || []).filter(slot => slot.status === 'open');
+  if (!openSlots.length) {
     selectors.timeSelect.appendChild(new Option('No open slots', '', true, false));
     state.time = '';
     updateSummary();
     return;
   }
   selectors.timeSelect.appendChild(new Option('Select a slot', '', true, false));
-  slots.forEach(slot => {
-    const option = new Option(
-      `${slot.label}${slot.status && slot.status !== 'open' ? ` - ${slot.status}` : ''}`,
-      slot.start,
-      false,
-      false
-    );
-    option.disabled = slot.status !== 'open';
+  openSlots.forEach(slot => {
+    const option = new Option(slot.label, slot.start, false, false);
     selectors.timeSelect.appendChild(option);
   });
   const firstOpen = Array.from(selectors.timeSelect.options).find(opt => opt.value && !opt.disabled);
@@ -1368,14 +1332,6 @@ function summarizeSlots(slots = []) {
   );
 }
 
-function updateRotationPreview() {
-  if (!selectors.nextStylistLabel) return;
-  const next = roundRobin?.peek?.();
-  selectors.nextStylistLabel.textContent = next?.stylist
-    ? `${next.stylist.name} - ${next.stylist.specialties}`
-    : 'Add stylists to the roster';
-}
-
 function updateSummary() {
   const service = servicesById.get(state.serviceId);
   const addOns = getSelectedAddOns();
@@ -1388,17 +1344,12 @@ function updateSummary() {
   selectors.summaryFields.time.textContent =
     state.date && state.time ? `${formatHumanDate(state.date)} at ${formatTime(state.time)}` : 'Choose a date + slot';
 
-  let stylistText = 'Round robin pending roster';
-  if (state.stylistMode === 'roundRobin') {
-    const next = roundRobin?.peek?.();
-    stylistText = next?.stylist
-      ? `Round robin (next: ${next.stylist.name} • ${next.stylist.displayPhone || SALON_PHONE_DISPLAY})`
-      : 'Add stylists to roster';
-  } else if (state.stylistMode === 'manual') {
-    const selectedStylist = stylistsById.get(state.stylistId);
-    stylistText = selectedStylist
-      ? `Stylist: ${selectedStylist.name} • ${selectedStylist.displayPhone || SALON_PHONE_DISPLAY}`
-      : 'Select a stylist';
+  const selectedStylist = stylistsById.get(state.stylistId);
+  let stylistText = 'Choose a stylist';
+  if (selectedStylist) {
+    stylistText = `Stylist: ${selectedStylist.name} • ${selectedStylist.displayPhone || SALON_PHONE_DISPLAY}`;
+  } else if (!currentEligibleStylists.length) {
+    stylistText = 'Add stylists to roster';
   }
   selectors.summaryFields.stylist.textContent = stylistText;
 
@@ -1432,13 +1383,10 @@ async function handleSubmit() {
 
   const start = combineDateTime(state.date, state.time);
   const end = new Date(start.getTime() + service.duration * 60000);
-  const stylist =
-    state.stylistMode === 'manual'
-      ? stylistsById.get(state.stylistId || '')
-      : roundRobin?.assign?.();
+  const stylist = stylistsById.get(state.stylistId || '');
 
   if (!stylist) {
-    logAction('No stylist selected. Add team members first.', 'error');
+    logAction('Pick a stylist before booking.', 'error');
     return;
   }
 
@@ -1454,7 +1402,6 @@ async function handleSubmit() {
   if (selectors.googlePayload) {
     selectors.googlePayload.textContent = JSON.stringify(googlePayload, null, 2);
   }
-  updateRotationPreview();
   updateSummary();
 
   const submissions = [];
@@ -1534,7 +1481,7 @@ function buildSquarePayload(service, stylist, start, end) {
       }
     ],
     metadata: {
-      stylist_assignment: state.stylistMode,
+      stylist_assignment: 'manual',
       source: 'custom_booking_ui'
     }
   };
@@ -1826,36 +1773,6 @@ function timeStamp() {
   }).format(new Date());
 }
 
-function createRoundRobin(roster) {
-  const storageKey = 'sgnc_rr_pointer';
-  let pointer = Number.parseInt(localStorage.getItem(storageKey) ?? '-1', 10);
-  if (!Number.isInteger(pointer) || pointer >= roster.length) {
-    pointer = -1;
-  }
-
-  const persist = () => localStorage.setItem(storageKey, pointer.toString());
-
-  return {
-    peek() {
-      if (!roster.length) return null;
-      const index = (pointer + 1) % roster.length;
-      return { stylist: roster[index], index };
-    },
-    assign() {
-      if (!roster.length) return null;
-      pointer = (pointer + 1) % roster.length;
-      persist();
-      return roster[pointer];
-    },
-    skip() {
-      if (!roster.length) return null;
-      pointer = (pointer + 1) % roster.length;
-      persist();
-      return roster[pointer];
-    }
-  };
-}
-
 const SquareAvailability = (() => {
   async function fetchFromSquare({ service, date, stylists }) {
     if (!config.squareAvailabilityEndpoint) {
@@ -1870,10 +1787,10 @@ const SquareAvailability = (() => {
     url.searchParams.set('date', date);
     url.searchParams.set('serviceVariationId', service.squareCatalogObjectId);
     url.searchParams.set('durationMinutes', String(service.duration));
-    const rosterIds = service.teamMemberIds?.length
-      ? service.teamMemberIds
-      : stylists.map(stylist => stylist.squareStaffId);
-    rosterIds.filter(Boolean).forEach(id => url.searchParams.append('teamMemberIds', id));
+    const rosterIds = (stylists ?? []).map(stylist => stylist.squareStaffId).filter(Boolean);
+    const fallbackIds = Array.isArray(service.teamMemberIds) ? service.teamMemberIds.filter(Boolean) : [];
+    const idsToUse = rosterIds.length ? rosterIds : fallbackIds;
+    idsToUse.forEach(id => url.searchParams.append('teamMemberIds', id));
     const response = await fetch(url.toString());
     if (!response.ok) {
       throw new Error('Square availability request failed.');
