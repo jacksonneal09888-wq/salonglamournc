@@ -1253,25 +1253,22 @@ async function loadAvailability(forceMock = false) {
     populateSlots(slots);
     renderAvailabilityMeter(slots, summarizeSlots(slots));
     const summary = summarizeSlots(slots);
-    setAvailabilityStatus(
-      availability?.source === 'square'
-        ? summary.open > 0
+    if (availability?.source === 'square') {
+      setAvailabilityStatus(
+        summary.open > 0
           ? `Live availability loaded · ${summary.open} open${summary.held ? `, ${summary.held} held` : ''}`
           : 'Fully booked for this date.'
-        : `Mock data for testing · refreshed ${timeStamp()}`
-    );
+      );
+    } else {
+      setAvailabilityStatus(`Mock data for testing · refreshed ${timeStamp()}`, true);
+    }
   } catch (error) {
     console.error(error);
-    setAvailabilityStatus('Unable to load availability, showing mock data.', true);
-    const mock = await SquareAvailability.fetch({
-      service,
-      date: state.date,
-      stylists: stylistsForAvailability.length ? stylistsForAvailability : stylists,
-      forceMock: true
-    });
-    const slots = mock?.slots || [];
-    populateSlots(slots);
-    renderAvailabilityMeter(slots, summarizeSlots(slots));
+    setAvailabilityStatus('Unable to load live availability. Please refresh or try again.', true);
+    selectors.timeSelect.innerHTML = '';
+    selectors.timeSelect.appendChild(new Option('No open slots', '', true, false));
+    state.time = '';
+    updateSummary();
   } finally {
     selectors.timeSelect.disabled = false;
   }
