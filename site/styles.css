@@ -258,11 +258,11 @@ p {
 }
 
 .btn.ghost {
-  --btn-bg: rgba(233, 187, 120, 0.12);
-  --btn-border: rgba(233, 187, 120, 0.6);
-  --btn-color: #f4d6a3;
-  --btn-shadow: 0 14px 30px rgba(203, 166, 117, 0.25);
-  --btn-hover-shadow: 0 20px 42px rgba(203, 166, 117, 0.35);
+  --btn-bg: linear-gradient(135deg, rgba(233, 187, 120, 0.9), rgba(203, 135, 63, 0.9));
+  --btn-border: rgba(233, 187, 120, 0.95);
+  --btn-color: #2b1a0f;
+  --btn-shadow: 0 16px 34px rgba(203, 166, 117, 0.35);
+  --btn-hover-shadow: 0 24px 48px rgba(203, 166, 117, 0.45);
 }
 
 .btn:hover,
