@@ -576,10 +576,13 @@ p {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.2rem;
+  justify-items: center;
 }
 
 .pair-image {
   position: relative;
+  width: 100%;
+  max-width: 440px;
 }
 
 .pair-tag {
@@ -611,6 +614,7 @@ p {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
+  justify-items: center;
 }
 
 .gallery-grid {
@@ -639,6 +643,8 @@ p {
 .gallery-pair .gallery-card,
 .gallery-lash-grid .gallery-card {
   margin: 0;
+  width: 100%;
+  max-width: 440px;
 }
 
 .gallery-card img {
@@ -1485,6 +1491,22 @@ p {
 
   .reviews-card iframe {
     min-height: 240px;
+  }
+
+  .gallery-pairs {
+    gap: 1.4rem;
+  }
+
+  .gallery-pair {
+    padding: 1rem;
+  }
+
+  .pair-images {
+    gap: 1rem;
+  }
+
+  .gallery-lash-grid {
+    gap: 1rem;
   }
 
   .announcement {
