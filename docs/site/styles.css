@@ -249,11 +249,11 @@ p {
 }
 
 .btn.primary {
-  --btn-bg: linear-gradient(135deg, #f5cfa8, #e8a76d);
-  --btn-border: rgba(0, 0, 0, 0.06);
-  --btn-color: #2b1d12;
-  --btn-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
-  --btn-hover-shadow: 0 22px 50px rgba(0, 0, 0, 0.26);
+  --btn-bg: linear-gradient(135deg, #f7c66c, #d89b3d);
+  --btn-border: rgba(255, 233, 189, 0.85);
+  --btn-color: #2b1a0f;
+  --btn-shadow: 0 22px 48px rgba(203, 166, 117, 0.4);
+  --btn-hover-shadow: 0 28px 58px rgba(203, 166, 117, 0.55);
   backdrop-filter: none;
 }
 
@@ -817,28 +817,12 @@ p {
 }
 
 .btn.social {
-  --btn-border: rgba(255, 255, 255, 0.4);
-  --btn-color: #ffffff;
+  --btn-bg: linear-gradient(135deg, #f7c66c, #d89b3d);
+  --btn-border: rgba(255, 233, 189, 0.9);
+  --btn-color: #2b1a0f;
+  --btn-shadow: 0 20px 48px rgba(203, 166, 117, 0.35);
+  --btn-hover-shadow: 0 24px 58px rgba(203, 166, 117, 0.45);
   letter-spacing: 0.08em;
-}
-
-.btn.social.facebook {
-  --btn-bg: linear-gradient(135deg, #1877f2, #2948c1);
-  --btn-shadow: 0 20px 48px rgba(24, 119, 242, 0.35);
-  --btn-hover-shadow: 0 24px 58px rgba(24, 119, 242, 0.48);
-}
-
-.btn.social.instagram {
-  --btn-bg: linear-gradient(135deg, #f58529, #dd2a7b 55%, #8134af);
-  --btn-shadow: 0 20px 48px rgba(221, 42, 123, 0.35);
-  --btn-hover-shadow: 0 24px 58px rgba(221, 42, 123, 0.48);
-}
-
-.btn.social.tiktok {
-  --btn-bg: linear-gradient(135deg, #25f4ee, #fe2c55 55%, #000000);
-  --btn-border: rgba(255, 255, 255, 0.55);
-  --btn-shadow: 0 20px 48px rgba(254, 44, 85, 0.35);
-  --btn-hover-shadow: 0 24px 58px rgba(254, 44, 85, 0.48);
 }
 
 .contact-card--feature {
