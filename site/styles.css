@@ -258,11 +258,11 @@ p {
 }
 
 .btn.ghost {
-  --btn-bg: linear-gradient(135deg, rgba(233, 187, 120, 0.9), rgba(203, 135, 63, 0.9));
-  --btn-border: rgba(233, 187, 120, 0.95);
+  --btn-bg: linear-gradient(135deg, #f7c66c, #d89b3d);
+  --btn-border: rgba(255, 233, 189, 0.85);
   --btn-color: #2b1a0f;
-  --btn-shadow: 0 16px 34px rgba(203, 166, 117, 0.35);
-  --btn-hover-shadow: 0 24px 48px rgba(203, 166, 117, 0.45);
+  --btn-shadow: 0 22px 48px rgba(203, 166, 117, 0.4);
+  --btn-hover-shadow: 0 28px 58px rgba(203, 166, 117, 0.55);
 }
 
 .btn:hover,
@@ -560,6 +560,7 @@ p {
 .gallery-grid {
   column-count: 4;
   column-gap: 1rem;
+  column-fill: balance;
 }
 
 .gallery-card {
@@ -570,6 +571,8 @@ p {
   box-shadow: var(--shadow);
   cursor: pointer;
   break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
   display: inline-block;
   width: 100%;
 }
